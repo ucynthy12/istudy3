@@ -4,9 +4,6 @@ from istudy_project import settings
 from .models import User
 from allauth.account.utils import setup_user_email
 
-
-
-
 class UserDetailsSerializer(serializers.ModelSerializer):
     """
     User model w/o password
@@ -23,7 +20,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = User
-        fields = ('id', 'full_name','username', 'email', 'role', 'phone_number',  'bio','password','password2')
+        fields = ('id', 'full_name','username', 'email', 'role', 'phone_number',  'password','password2')
         extra_kwargs = {
             'password': {'write_only': True}
             }
@@ -35,7 +32,6 @@ class RegisterSerializer(serializers.ModelSerializer):
             full_name=self.validated_data['full_name'],
             phone_number=self.validated_data['phone_number'],
             role=self.validated_data['role'],
-            bio=self.validated_data['bio'],
 
 
 

@@ -13,9 +13,9 @@ from rest_framework.generics import GenericAPIView
 from .serialisers import *
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from rest_framework.authtoken.models import Token
-
+from .permissions import IsAdminOrReadOnly
 
 def index(request):
     return render(request,'home.html')
@@ -69,7 +69,7 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('index'))
 
 class usersList(APIView):
-
+    permission_classes = (IsAdminUser,)
     def get(self,request):
         users = User.objects.all()
         serializer= UserDetailsSerializer(users,many=True)

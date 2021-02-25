@@ -6,7 +6,6 @@ from django.contrib.auth.forms import UserCreationForm
 
 class UserForm(UserCreationForm):
     email = forms.EmailField(max_length=300,help_text='Required. Inform a valid email address')
-    bio = forms.CharField(required=False)
     parent = 'parent'
     student = 'student'
     taecher = 'teacher'
@@ -18,11 +17,17 @@ class UserForm(UserCreationForm):
     role = forms.ChoiceField(required=True,choices=roles)
     class Meta():
         model = User
-        fields = ('full_name','username', 'email','bio','profile_picture','role','phone_number','password1', 'password2',)
+        fields = ('full_name','username', 'email','role','phone_number','password1', 'password2',)
 
         labels ={
             'password1':'Password',
             'password2': 'Confirm Password',
         }
+
+class UpdateUserProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = [ 'profile_picture', 'bio']
 
   

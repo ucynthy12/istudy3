@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'rest_auth.registration',
+    'curriculum',
 ]
 
 SITE_ID = 1
@@ -96,7 +97,7 @@ WSGI_APPLICATION = 'istudy_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'study3',
+        'NAME': 'study4',
         'USER': 'cynthia',
     'PASSWORD':'zion',
     }

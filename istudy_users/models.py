@@ -3,7 +3,8 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.utils import timezone
 from cloudinary.models import CloudinaryField
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class UserManager(BaseUserManager):
 
@@ -41,13 +42,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
-    bio = models.CharField(max_length=255,blank=True,default='My Bio')
- 
-    profile_picture = CloudinaryField('image',null=True,blank=True)
+    
     
     parent = 'parent'
     student = 'student'
-    taecher = 'teacher'
+    teacher = 'teacher'
     
     roles=[
         ('parent','parent'),
@@ -61,3 +60,27 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email', ]
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='profile')
+    bio = models.CharField(max_length=255,blank=True,default='My Bio')
+    profile_picture = CloudinaryField('image',null=True,blank=True)
+
+    
+   
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
+
+    @classmethod
+    def search_profile(cls, name):
+        return cls.objects.filter(user__username__icontains=name).all()
+
+
+    def __str__(self):
+        return f'{self.user.username} Profile'
