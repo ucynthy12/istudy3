@@ -82,7 +82,6 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'rest_auth.registration',
-    'curriculum',
 ]
 
 SITE_ID = 1
