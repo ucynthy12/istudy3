@@ -2,24 +2,19 @@ from django.db import models
 from cloudinary.models import CloudinaryField
 from django.template.defaultfilters import slugify
 from istudy_users.models import User
+import os
 # Create your models here.
 
 class Course(models.Model):
     name = models.CharField(max_length=200,unique=True)
-    slug = models.SlugField(null=True,blank=True)
     description = models.TextField(max_length=500,blank=True)
 
     def __str__(self):
         return self.name
 
-    def save(self,*args,**kwargs):
-        self.slug = slugify(self.name)
-        super().save(*args,**kwargs)
 
 class Subject(models.Model):
-    subject_id=models.CharField(max_length=100,unique=True)
     name = models.CharField(max_length=200)
-    slug = models.SlugField(null=True,blank=True)
     course = models.ForeignKey(Course,on_delete=models.CASCADE,related_name='subjects')
     image= CloudinaryField('image',null=True,blank=True)
     description = models.TextField(max_length=500,blank=True)
@@ -27,10 +22,7 @@ class Subject(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self,*args,**kwargs):
-        self.slug = slugify(self.subject_id)
-        super().save(*args,**kwargs)
-
+    
 def save_lesson_files(instance,filename):
     upload_to ='Images/'
     ext = filename.split('.')[-1]
@@ -54,7 +46,6 @@ class Lesson(models.Model):
     subject = models.ForeignKey(Subject,on_delete=models.CASCADE,related_name='lessons')
     name = models.CharField(max_length=300)
     position = models.PositiveSmallIntegerField(verbose_name='Chapter no.')
-    slug = models.SlugField(null=True,blank=True)
     video= models.FileField(upload_to=save_lesson_files,verbose_name='Video',blank=True,null=True)
     ppt = models.FileField(upload_to=save_lesson_files,verbose_name='Presentation',blank=True)
     notes = models.FileField(upload_to=save_lesson_files,verbose_name='Notes',blank=True)
@@ -66,10 +57,6 @@ class Lesson(models.Model):
     def __str__(self):
         return self.name
 
-
-    def save(self,*args,**kwargs):
-        self.slug = slugify(self.name)
-        super().save(*args,**kwargs)
 
 
     

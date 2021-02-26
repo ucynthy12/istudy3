@@ -16,9 +16,11 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from rest_framework.authtoken.models import Token
 from .permissions import IsAdminOrReadOnly
+from curriculum.models import Course
 
 def index(request):
-    return render(request,'home.html')
+    courses = Course.objects.all()
+    return render(request,'home.html',{"courses":courses})
 
 
 def register(request):
