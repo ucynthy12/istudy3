@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse,HttpResponseRedirect
 from .forms import *
 from django.contrib.auth import authenticate,login,logout
@@ -16,6 +16,8 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from rest_framework.authtoken.models import Token
 from .permissions import IsAdminOrReadOnly
+from .email import send_welcome_email
+from django.contrib import messages
 
 def index(request):
     return render(request,'home.html')
@@ -29,11 +31,24 @@ def register(request):
         user_form = UserForm(data=request.POST)
 
         if user_form.is_valid():
-            user = user_form.save(commit=False)
-            user.save()
+            user_form.save()
+            username = user_form.cleaned_data.get('username')
+            password = user_form.cleaned_data.get('password1')
+            email = user_form.cleaned_data['email']
+            user = authenticate(username=username,password=password)
+            login(request,user)
+
+            messages.success(request, f'Your account has been created, you can now login!')
+            # messages.success(request, f'Account created for {username}!')
+            send_welcome_email(username,email)
             registered =True
+            return redirect('index')
+            
 
         else:
+            for msg in user_form.error_messages:
+                messages.error(request, f"{msg}: {user_form.error_messages[msg]}")
+            print(msg)
             print(user_form.errors)
     
     else:
