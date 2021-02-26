@@ -18,9 +18,11 @@ from rest_framework.authtoken.models import Token
 from .permissions import IsAdminOrReadOnly
 from .email import send_welcome_email
 from django.contrib import messages
+from curriculum.models import Course
 
 def index(request):
-    return render(request,'home.html')
+    courses = Course.objects.all()
+    return render(request,'home.html',{"courses":courses})
 
 
 def register(request):

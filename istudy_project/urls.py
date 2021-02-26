@@ -21,6 +21,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('istudy_users.urls')),
+    path('curriculum/',include('curriculum.urls')),
     path('api-auth/', include('rest_framework.urls')),
  
 ]
