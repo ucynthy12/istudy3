@@ -13,9 +13,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import cloudinary
 import os
-import django_heroku
-import dj_database_url
-from decouple import config,Csv
+# import django_heroku
+# import dj_database_url
+# from decouple import config,Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,39 +24,41 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
+SECRET_KEY ='o=@9n1cr+(6gbi*vmo62b(9&dw)o+kcfrzc0#h3kv4of2gv!s%'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-MODE=config("MODE", default="dev")
-SECRET_KEY = config('SECRET_KEY')
-DEBUG = config('DEBUG', default=False, cast=bool)
+# MODE=config("MODE", default="dev")
+# SECRET_KEY = config('SECRET_KEY')
+# DEBUG = config('DEBUG', default=False, cast=bool)
 
-# SECURITY WARNING: don't run with debug turned on in production!
-if config('MODE')=="dev":
-   DATABASES = {
-       'default': {
-           'ENGINE': 'django.db.backends.postgresql_psycopg2',
-           'NAME': config('DB_NAME'),
-           'USER': config('DB_USER'),
-           'PASSWORD': config('DB_PASSWORD'),
-           'HOST': config('DB_HOST'),
-           'PORT': '',
-       }
+# # SECURITY WARNING: don't run with debug turned on in production!
+# if config('MODE')=="dev":
+#    DATABASES = {
+#        'default': {
+#            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#            'NAME': config('DB_NAME'),
+#            'USER': config('DB_USER'),
+#            'PASSWORD': config('DB_PASSWORD'),
+#            'HOST': config('DB_HOST'),
+#            'PORT': '',
+#        }
        
-   }
-# production
-else:
-   DATABASES = {
-       'default': dj_database_url.config(
-           default=config('DATABASE_URL')
-       )
-   }
+#    }
+# # production
+# else:
+#    DATABASES = {
+#        'default': dj_database_url.config(
+#            default=config('DATABASE_URL')
+#        )
+#    }
 
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+# db_from_env = dj_database_url.config(conn_max_age=500)
+# DATABASES['default'].update(db_from_env)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+# ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
+ALLOWED_HOSTS = False
 #cloudinary configuration
 
 cloudinary.config( 
@@ -162,17 +164,17 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
 
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
 
 AUTH_USER_MODEL = 'istudy_users.User'
 ACCOUNT_EMAIL_REQUIRED = False
@@ -195,3 +197,12 @@ REST_FRAMEWORK ={
 }
 
 JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'ckuradusenge42@gmail.com'
+EMAIL_HOST_PASSWORD = '0723854315'
+
+LOGIN_REDIRECT_URL='index'

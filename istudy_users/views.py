@@ -16,6 +16,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from rest_framework.authtoken.models import Token
 from .permissions import IsAdminOrReadOnly
+from .email import send_welcome_email
 
 def index(request):
     return render(request,'home.html')
@@ -30,8 +31,17 @@ def register(request):
 
         if user_form.is_valid():
             user = user_form.save(commit=False)
+
+            username = user_form.cleaned_data.get('username')
+            password = user_form.cleaned_data.get('password1')
+            email = user_form.cleaned_data['email']
+            user = authenticate(username=username,password=password)
+            send_welcome_email(username,email)
+            login(request,user)
+            
             user.save()
             registered =True
+            return redirect('index')
 
         else:
             print(user_form.errors)
@@ -42,26 +52,26 @@ def register(request):
     return render(request,'registration/registration_form.html',{'registered':registered,'user_form':user_form,})
 
 
-def user_login(request):
-    if request.method == "POST":
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+# def user_login(request):
+#     if request.method == "POST":
+#         username = request.POST.get('username')
+#         password = request.POST.get('password')
 
-        user = authenticate(username=username,password=password)
+#         user = authenticate(username=username,password=password)
 
-        if user:
-            if user.is_active:
-                login(request,user)
-                return HttpResponseRedirect(reverse('index'))
+#         if user:
+#             if user.is_active:
+#                 login(request,user)
+#                 return HttpResponseRedirect(reverse('index'))
             
-            else:
-                return HttpResponse('ACCOUNT IS DEACTIVATED')
+#             else:
+#                 return HttpResponse('ACCOUNT IS DEACTIVATED')
 
-        else:
-            return HttpResponse('Please use correct id and password')
+#         else:
+#             return HttpResponse('Please use correct id and password')
 
-    else:
-        return render(request,'registration/login.html')
+#     else:
+#         return render(request,'registration/login.html')
 
 @login_required
 def user_logout(request):
