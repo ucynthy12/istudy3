@@ -1,15 +1,24 @@
 {% extends 'registration/base.html' %}
+{% load static %}
 {% block content %}
 
-<form action="" method="post">
+<div class="user">
+    <header class="user__header">
+        <h1 class="user__title"> Login form</h1>
+    </header>
+    <form class="form" action="" method="POST" >
     {% csrf_token %}
-    <label for="username">Username:</label>
-    <input type="text" name="username" placeholder="Username" class="form-control">
-    <label for="password">Password:</label>
-    <input type="password" name="password" placeholder="Password" class="form-control">
-
-    <input type="submit" value="Login">
-</form>
-
+       
+        <div class="form__group">
+            <input type="text" placeholder="Username" name="username" class="form__input validate" />
+        </div>
+     
+        <div class="form__group">
+            <input type="password" placeholder="Password" name='password' class="form__input validate" />
+        </div>
+      
+        <input type="submit" class="form__input" value="Login">
+    </form>
+</div>
 
 {% endblock %}
