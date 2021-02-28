@@ -1,6 +1,5 @@
 from django.db import models
 from cloudinary.models import CloudinaryField
-from django.template.defaultfilters import slugify
 from istudy_users.models import User
 import os
 # Create your models here.
@@ -53,9 +52,13 @@ class Lesson(models.Model):
     class Meta:
         ordering = ['position']
 
+    
+
 
     def __str__(self):
         return self.name
+
+    
 
 
 

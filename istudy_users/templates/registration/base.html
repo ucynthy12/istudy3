@@ -9,18 +9,20 @@
     <script src="https://kit.fontawesome.com/160b0d3734.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type='text/css' href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/main.css">
 
     <title>iStudy</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+
         body {
-            font-family: Roboto;
+            font-family: 'Source Code Pro', monospace;
             font-size: 14px;
             background-size: 200% 100% !important;
             animation: move 10s ease infinite;
             transform: translate3d(0, 0, 0);
             background: linear-gradient(45deg, #49D49D 10%, #A2C7E5 90%);
-            height: 100vh
+            height: 100%;
         }
 
         .user {
@@ -62,7 +64,6 @@
             display: block;
             width: 100%;
             padding: 20px;
-            font-family: Roboto;
             -webkit-appearance: none;
             border: 0;
             outline: 0;
@@ -88,15 +89,15 @@
 
 
         } */
-        input[type=submit]{
+        input[type=submit] {
             color: white;
             background: #ABA194;
             transition: 0.3s;
             font-family: Roboto;
 
         }
-      
-      
+
+
 
         @keyframes NO {
 
@@ -149,6 +150,7 @@
                 background-position: 0 0
             }
         }
+        
     </style>
 
 </head>
@@ -156,11 +158,9 @@
 <body>
 
     {% include 'navbar.html' %}
-    <!-- <div class="jumbotron"> -->
     {% block content %}
 
     {% endblock %}
-    <!-- </div> -->
 
 
     {% block scripts%}

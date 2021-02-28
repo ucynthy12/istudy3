@@ -32,6 +32,41 @@ def LessonsView(request,course_id,subject_id):
 
 def LessonDetailView(request,subject_id,lesson_id):
   subject=Subject.objects.get(id=subject_id)
-  lesson=Lesson.objects.get(id=lesson_id)
+  lesson=Lesson.objects.filter(subject=subject)
   return render(request,'lesson_details.html',{"subject":subject,"lesson":lesson})
 
+def LessonCreateView(request,course_id,subject_id):
+  course= Course.objects.get(id=course_id)
+  subject=Subject.objects.get(id=subject_id)
+  lesson = Lesson.objects.filter(subject=subject)
+  if request.method == 'POST':
+    form = LessonForm(request.POST, request.FILES)
+    if form.is_valid():
+      create= form.save(commit=False)
+      create.created_by = self.request.user
+      create.course = course
+      create.subject = subject
+      create.lesson=lesson
+      create.save()
+      return redirect('lessons-list',course.id,subject.id)
+  else:
+    form = LessonForm()
+  return render(request,'lesson_create.html',{'form':form,'lesson':lesson,"subject":subject,'course':course})
+
+# form_class = LessonForm
+#     context_object_name = 'subject'
+#     model= Subject
+#     template_name = 'curriculum/lesson_create.html'
+#     def get_success_url(self):
+#         self.object = self.get_object()
+#         standard = self.object.standard
+#         return reverse_lazy('curriculum:lesson_list',kwargs={'standard':standard.slug,
+#                                                              'slug':self.object.slug})
+#     def form_valid(self, form, *args, **kwargs):
+#         self.object = self.get_object()
+#         fm = form.save(commit=False)
+#         fm.created_by = self.request.user
+#         fm.Standard = self.object.standard
+#         fm.subject = self.object
+        # fm.save()
+        # return HttpResponseRedirect(self.get_success_url())

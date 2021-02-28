@@ -1,0 +1,78 @@
+{% extends 'base.html'  %}
+{% load static %}
+{%block title %}index page{% endblock%}
+{% block content %}
+
+<main class="mt-3">
+  <div class="container">
+    <!-- section 1 for coursess-->
+
+    <section class="text-center">
+                  <h2 class="mb-5 font-weight-bold" style="color:#76B947;">Explore our classes</h2>
+                  <!-- class row for description-->
+                  <div class="row d-flex justify-content-center mb-4">
+                    <!-- class column -->
+                    <div class="col-md-8">
+                      <p class="grey-text">Istudy is for your kids from Kindergarten to primary three. The lessons and materials provided are based on the class. Find the one suitable for you kid, and start enjoying learning with us!</p>
+                    </div>
+                  </div>
+                  <!-- class row2 for cards -->
+                  <div class="row">
+                          {% for course in courses %}
+                          <div class="col-md-4 d-flex mb-5 justify-content-center">
+                            <div class="card text-center" style="width: 18rem;">
+                              <div class="card-body">
+                                <h4 class="card-title" style="color:#76B947;">{{course.name}}</h4>
+                                <p class="card-text">{{course.description|truncatechars:75}}</p>
+                                
+                              </div>
+                            </div>
+                          </div>
+                          {% endfor %}
+                  </div>
+    </section>
+    <hr class="my-5" style="color:#76B947;">
+    <!-- Section 2: Faculty Members -->
+
+    <section class="text-center">
+      <h2 class="mb-5 font-weight-bold" style="color:#76B947;">Meet Our Team</h2>
+      <div class="row d-flex justify-content-center mb-4">
+          <div class="col-md-8">
+            <p class="grey-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi voluptate
+                              hic
+                              provident nulla repellat
+                              facere esse molestiae ipsa labore porro minima quam quaerat rem, natus repudiandae debitis
+                              est
+                              sit pariatur.</p>
+          </div>
+          <div class="row d-flex justify-content-center mb-3">
+          {% for teacher in teachers %}
+          <div class="card mb-3 mr-5 ml-3" style="max-width: 500px;">
+            <div class="row no-gutters">
+                      <div class="col-md-4">
+                        <img src="{{teacher.profile_pic.url|default_if_none:'#'}}" class="card-img" alt="No image found">
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body">
+                          <h5 class="card-title" style="color:#76B947;">{{teacher.user.username}}</h5>
+                          <p class="card-text">{{teacher.bio|truncatechars:75}}</p>
+                          <p class="card-text"><small class="text-muted"></small></p>
+                        </div>
+                      </div>
+            </div>
+            </div>
+          {% endfor %}
+          </div>
+      </div>
+    </section>
+
+    <!-- <hr class="my-5" style="color:#76B947;"> -->
+  </div>
+
+<!-- section 3 for activities -->
+<!--  -->
+  <hr class="my-5" style="color:#76B947;">
+</main>
+
+
+{%endblock%}

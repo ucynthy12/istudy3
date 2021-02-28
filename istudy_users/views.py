@@ -23,7 +23,9 @@ from curriculum.models import Course
 def index(request):
     courses = Course.objects.all()
     return render(request,'home.html',{"courses":courses})
-
+def about(request):
+    courses = Course.objects.all()
+    return render(request,'about.html',{"courses":courses})    
 
 def register(request):
 
