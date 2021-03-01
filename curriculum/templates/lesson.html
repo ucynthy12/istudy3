@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %} {{subject.name}} {% endblock %}
+{% block title %} {{subjects.name}} {% endblock %}
 
 {% block content %}
 <header class="info-header">
@@ -27,9 +27,7 @@
         <hr style="color:#76B947;">
 
         <!-- description -->
-        <h4 class="white-text my-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          Deleniti
-          consequuntur.</h4>
+        <h4 class="white-text my-4">“That is what learning is. You suddenly understand something you’ve understood all your life, but in a new way.” – Doris Lessing</h4>
       </div>
 </header>
 <section id="best-features" class="text-center">
@@ -38,12 +36,7 @@
   <div class="row d-flex justify-content-center mb-4">
     <!-- class column -->
     <div class="col-md-8 mb-5">
-      <p class="grey-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi voluptate
-        hic
-        provident nulla repellat
-        facere esse molestiae ipsa labore porro minima quam quaerat rem, natus repudiandae debitis
-        est
-        sit pariatur.</p>
+      <p class="grey-text">{{subjects.description}}</p>
     </div>
   </div>
   <!-- class row2 for cards -->
@@ -63,13 +56,13 @@
       </div>
     </div>
   </div>
+  
+  {% endfor %}
   <div class="row d-flex justify-content-center mb-3">
     {% if user.userprofileinfo.user_type == 'teacher' or user.is_superuser %}
-    <a href="{% url 'curriculum:create' subject_id=lesson.subject.id course_id=course.id %}"><button type="button" class="btn btn-success btn-lg btn-bloc"> Add new Lesson </button> </a>
+    <a href="{% url 'curriculum:create' subject_id=subjects.id course_id=course.id %}"><button type="button" class="btn btn-success btn-lg btn-bloc"> Add new Lesson </button> </a>
     {% endif %}
   </div>
-  {% endfor %}
-
 
 </section>
 
