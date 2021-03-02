@@ -6,7 +6,7 @@ from rest_framework import status
 from .serializers import *
 from .models import Course, Subject, Lesson
 from django.urls import reverse_lazy
-from .forms import LessonForm,LessonUpdateForm
+from .forms import LessonForm,LessonUpdateForm,CommentForm,ReplyForm
 from django.http import HttpResponseRedirect,FileResponse
 
 
@@ -32,6 +32,14 @@ def LessonDetailView(request,subject_id,lesson_id):
   subject=Subject.objects.get(id=subject_id)
   lesson=Lesson.objects.get(id=lesson_id)
   print(lesson)
+
+  if request.method == 'POST':
+    com_form = CommentForm(request.POST,request.FILES)
+    if com_form.is_valid():
+      comment = com_form.save(commit=False)
+
+  
+
   return render(request,'lesson_details.html',{"subject":subject,"lesson":lesson})
 
 def LessonCreateView(request,course_id,subject_id):
@@ -67,11 +75,18 @@ def LessonUpdateView(request,subject_id,lesson_id):
     form= LessonUpdateForm()
   return render(request,'lesson_update.html',{"subject":subject,"lesson":lesson,'form':form})
 
-def LessonDeleteView(request,subject_id,lesson_id):
-  subject=Subject.objects.get(id=subject_id)
-  lesson=Lesson.objects.get(id=lesson_id)
-  lesson.delete()
-  return render(request,'lesson_delete.html',{"subject":subject,"lesson":lesson})
+# def LessonDeleteView(request,subject_id,lesson_id):
+#   subject=Subject.objects.get(id=subject_id)
+#   lesson=Lesson.objects.get(id=lesson_id)
+#   lesson.delete()
+#   return render(request,'lesson_delete.html',{"subject":subject,"lesson":lesson})
+
+
+
+
+
+
+
 
 
 
