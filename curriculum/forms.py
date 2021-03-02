@@ -7,7 +7,11 @@ class LessonForm(forms.ModelForm):
         fields = ('__all__')
         exclude = ['created_by','course','subject']
 
-
+class LessonUpdateForm(forms.ModelForm):
+    class Meta:
+        model =Lesson
+        fields = ('__all__')
+        exclude = ['created_by','course','subject']
 # class CommentForm(forms.ModelForm):
 #     class Meta:
 #         model = Comment

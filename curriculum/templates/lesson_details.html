@@ -22,7 +22,12 @@
   <div class="row d-flex justify-content-center mb-3">
     <div id="player-overlay">
       <video controls>
+        {% if lesson.video.url %}
         <source src="{{lesson.video.url}}" type="video/mp4">
+        {% else %}
+        <source src="#" type="video/mp4">
+        {%endif%}
+
       </video>
     </div>
   </div>
@@ -70,9 +75,15 @@
         <div class="card-body">
           <h5 class="card-title">Download Video</h5>
           <p class="card-text">Download Video from the lecture</p>
+        {% if lesson.video.url %}
+
           <a href="{{lesson.video.url}}" download>
             <button type="button" class="button-les"><span>Get Files</span></button>
+        
           </a>
+          {% else %}
+          <p class="card-text">No video available</p>
+          {%endif%}
         </div>
       </div>
     </div>
@@ -81,10 +92,9 @@
   <div class="row d-flex justify-content-center mb-3 mt-3">
     {% if user.userprofileinfo.user_type == 'teacher' or user.is_superuser %}
     <div class="col-md-6 mb-3 text-center">
-      <a href="" class="btn btn-warning btn-lg mr-4 btn-block">Update Lesson</a>
     </div>
     <div class="col-md-6">
-      <a href="" class="btn btn-danger btn-lg mr-4 btn-block"> Delete Lesson </a>
+      <a href="{% url 'curriculum:lesson-delete' subject_id=subject.id lesson_id=lesson.id %}" class="btn btn-danger btn-lg mr-4 btn-block"> Delete Lesson </a>
     </div>
     {% endif %}
   </div>

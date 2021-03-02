@@ -6,7 +6,7 @@ from rest_framework import status
 from .serializers import *
 from .models import Course, Subject, Lesson
 from django.urls import reverse_lazy
-from .forms import LessonForm
+from .forms import LessonForm,LessonUpdateForm
 from django.http import HttpResponseRedirect,FileResponse
 
 
@@ -30,7 +30,7 @@ def LessonsView(request,course_id,subject_id):
 
 def LessonDetailView(request,subject_id,lesson_id):
   subject=Subject.objects.get(id=subject_id)
-  lesson=Lesson.objects.get(id=lesson_id)
+  lesson=Lesson.objects.filter(subject=subject)
   print(lesson)
   return render(request,'lesson_details.html',{"subject":subject,"lesson":lesson})
 
@@ -53,6 +53,31 @@ def LessonCreateView(request,course_id,subject_id):
   return render(request,'lesson_create.html',{'form':form,'lesson':lesson,"subject":subject,'course':course})
 
 
+def LessonUpdateView(request,subject_id,lesson_id):
+  subject=Subject.objects.get(id=subject_id)
+  lesson=Lesson.objects.filter(subject=subject)
+
+  if request.method == 'POST':
+    form = LessonUpdateForm(request.POST,request.FILES)
+    if form.is_valid():
+      form.save()
+      return redirect('lesson-detail',subject.id,lesson.id)
+  
+  else:
+    form= LessonUpdateForm()
+  return render(request,'lesson_update.html',{"subject":subject,"lesson":lesson,'form':form})
+
+def LessonDeleteView(request,subject_id,lesson_id):
+  subject=Subject.objects.get(id=subject_id)
+  lesson=Lesson.objects.filter(subject=subject)
+  lesson.delete()
+  return render(request,'lesson_delete.html',{"subject":subject,"lesson":lesson})
+
+
+
+
+
+
 class CourseView(APIView):
   def get(self,request):
     courses=Course.objects.all()
@@ -62,7 +87,7 @@ class CourseView(APIView):
   def post(self):
     pass 
 
-class SubjectsView(APIView):
+class SubjectsApiView(APIView):
   def get(self,request):
     subjects=Subject.objects.all()
     serializer=SubjectSerializer(subjects,many=True)
