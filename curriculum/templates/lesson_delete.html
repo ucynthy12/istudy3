@@ -13,7 +13,7 @@
                 <input type="submit" value="Delete" class="btn btn-danger btn-block">
         </div>
         <div class="col-md-4 mb-3 mr-3">
-                <a href="{% url 'curriculum:lesson-detail' subject_id=lesson.subject.id lesson_id=lesson.id %}" class="btn btn-warning btn-block">Cancel Deletion</a>
+                <a href="{% url 'curriculum:lesson-detail' subject_id=subject.id lesson_id=lesson.id %}" class="btn btn-warning btn-block">Cancel Deletion</a>
         </div>
   </div>
 </form>

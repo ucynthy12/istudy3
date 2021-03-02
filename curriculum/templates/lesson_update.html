@@ -12,7 +12,7 @@
                         {% csrf_token %}
                         {{form.as_p}}
                         <input type="submit" value="submit">
-                        <a href="{% url 'curriculum:lesson-detail' subject_id=subject.id lesson_id=subject.lesson.id %}"
+                        <a href="{% url 'curriculum:lesson-detail' subject_id=subject.id lesson_id=lesson.id %}"
                             class="btn btn-danger">Cancel</a>
                     </form>
                 </div>

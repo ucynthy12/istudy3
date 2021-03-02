@@ -30,7 +30,7 @@ def LessonsView(request,course_id,subject_id):
 
 def LessonDetailView(request,subject_id,lesson_id):
   subject=Subject.objects.get(id=subject_id)
-  lesson=Lesson.objects.filter(subject=subject)
+  lesson=Lesson.objects.get(id=lesson_id)
   print(lesson)
   return render(request,'lesson_details.html',{"subject":subject,"lesson":lesson})
 
@@ -55,7 +55,7 @@ def LessonCreateView(request,course_id,subject_id):
 
 def LessonUpdateView(request,subject_id,lesson_id):
   subject=Subject.objects.get(id=subject_id)
-  lesson=Lesson.objects.filter(subject=subject)
+  lesson=Lesson.objects.get(id=lesson_id)
 
   if request.method == 'POST':
     form = LessonUpdateForm(request.POST,request.FILES)
@@ -69,7 +69,7 @@ def LessonUpdateView(request,subject_id,lesson_id):
 
 def LessonDeleteView(request,subject_id,lesson_id):
   subject=Subject.objects.get(id=subject_id)
-  lesson=Lesson.objects.filter(subject=subject)
+  lesson=Lesson.objects.get(id=lesson_id)
   lesson.delete()
   return render(request,'lesson_delete.html',{"subject":subject,"lesson":lesson})
 
