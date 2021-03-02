@@ -95,7 +95,7 @@
       <a href="{% url 'curriculum:lesson-update' subject_id=subject.id lesson_id=lesson.id %}" class="btn btn-warning btn-lg mr-4 btn-block">Update Lesson</a>
     </div>
     <div class="col-md-6">
-      <a href="" class="btn btn-danger btn-lg mr-4 btn-block"> Delete Lesson </a>
+      <a href="{% url 'curriculum:lesson-delete' lesson.id %}" class="btn btn-danger btn-lg mr-4 btn-block"> Delete Lesson </a>
     </div>
     {% endif %}
   </div>

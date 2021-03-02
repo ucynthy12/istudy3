@@ -8,6 +8,7 @@ from .models import Course, Subject, Lesson
 from django.urls import reverse_lazy
 from .forms import LessonForm,LessonUpdateForm,CommentForm,ReplyForm
 from django.http import HttpResponseRedirect,FileResponse
+from django.views.generic import DeleteView
 
 
 def CourseListView(request):
@@ -55,7 +56,7 @@ def LessonCreateView(request,course_id,subject_id):
       create.subject = subject
       create.lesson=lesson
       create.save()
-      return redirect('lessons-list',course.id,subject.id)
+      return redirect('curriculum:lessons-list',course.id,subject.id)
   else:
     form = LessonForm()
   return render(request,'lesson_create.html',{'form':form,'lesson':lesson,"subject":subject,'course':course})
@@ -66,21 +67,22 @@ def LessonUpdateView(request,subject_id,lesson_id):
   lesson=Lesson.objects.get(id=lesson_id)
 
   if request.method == 'POST':
-    form = LessonUpdateForm(request.POST,request.FILES)
+    form = LessonUpdateForm(request.POST,request.FILES,instance=lesson)
     if form.is_valid():
       form.save()
       return redirect('lesson-detail',subject.id,lesson.id)
   
   else:
-    form= LessonUpdateForm()
+    form= LessonUpdateForm(instance=lesson)
   return render(request,'lesson_update.html',{"subject":subject,"lesson":lesson,'form':form})
 
-# def LessonDeleteView(request,subject_id,lesson_id):
-#   subject=Subject.objects.get(id=subject_id)
-#   lesson=Lesson.objects.get(id=lesson_id)
-#   lesson.delete()
-#   return render(request,'lesson_delete.html',{"subject":subject,"lesson":lesson})
+class LessonDeleteView(DeleteView):
+  model = Lesson
+  template_name = "lesson_delete.html"
 
+
+  def get_success_url(self):
+        return reverse_lazy('curriculum:course_list')
 
 
 
