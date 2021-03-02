@@ -61,7 +61,7 @@
           <a href="{{lesson.notes.url}}">
             <button type="button" class="button-les"><span>My notes</span></button>
           </a>
-         
+
           {% else %}
           <p class="card-text">Notes not available</p>
           {%endif%}
@@ -75,11 +75,11 @@
         <div class="card-body">
           <h5 class="card-title">Download Video</h5>
           <p class="card-text">Download Video from the lecture</p>
-        {% if lesson.video.url %}
+          {% if lesson.video.url %}
 
           <a href="{{lesson.video.url}}" download>
             <button type="button" class="button-les"><span>Get Files</span></button>
-        
+
           </a>
           {% else %}
           <p class="card-text">No video available</p>
@@ -92,10 +92,12 @@
   <div class="row d-flex justify-content-center mb-3 mt-3">
     {% if user.userprofileinfo.user_type == 'teacher' or user.is_superuser %}
     <div class="col-md-6 mb-3 text-center">
-      <a href="{% url 'curriculum:lesson-update' subject_id=subject.id lesson_id=lesson.id %}" class="btn btn-warning btn-lg mr-4 btn-block">Update Lesson</a>
+      <a href="{% url 'curriculum:lesson-update' subject_id=subject.id lesson_id=lesson.id %}"
+        class="btn btn-warning btn-lg mr-4 btn-block">Update Lesson</a>
     </div>
     <div class="col-md-6">
-      <a href="{% url 'curriculum:lesson-delete' lesson.id %}" class="btn btn-danger btn-lg mr-4 btn-block"> Delete Lesson </a>
+      <a href="{% url 'curriculum:lesson-delete' lesson.id %}" class="btn btn-danger btn-lg mr-4 btn-block"> Delete
+        Lesson </a>
     </div>
     {% endif %}
   </div>
@@ -103,7 +105,7 @@
 
 <hr class="my-5" style="color:#76B947;">
 <section>
-  <!-- <h2 class="mb-4 mt-5 font-weight-bold" style="color:#ff5722;">Questions And Queries</h2>
+  <h2 class="mb-4 mt-5 font-weight-bold" style="color:#ff5722;">Questions And Queries</h2>
   <h4 class="mt-2 font-weight-bold" style="color:#ff5722;">Post your comment or question below:</h4>
   <br><br>
   <div class="container row">
@@ -111,44 +113,45 @@
       <form method="post">
         <div class="form-group">
           {% csrf_token %}
-          {{form|crispy}}
-          <input type="submit" name="form" value="Add Comment" class="btn btn-primary btn-sm">
+          {{comment_form.as_p}}
+
+          <input type="submit" name="comment_form" value="Add Comment" class="btn btn-primary btn-sm">
+
         </div>
       </form>
     </div>
-  </div> -->
-  <!-- <div class="row">
+  </div>
+  <div class="row">
     {% for comment in lesson.comments.all %}
     <div class="col-md-8 mt-2 mb-2">
       <div class="media border p-3">
-        <img src="{% static 'Images/user_avatar.png' %}" alt="John Doe" class="mr-3 mt-3 rounded-circle"
-          style="width:60px;">
+        <img src="" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
         <div class="media-body">
           <h4>{{comment.author}} <small><i>Posted on {{comment.date_added}}</i></small></h4>
           <p>{{comment.body}}</p>
-          {% for reply in comment.replies.all %}
+          {% for reply in comment.commreplies.all %}
           <div class="media p-3">
-            <img src="{% static 'Images/user_avatar.png' %}" alt="Jane Doe" class="mr-3 mt-3 rounded-circle"
-              style="width:45px;">
+            <img src="" alt="Jane Doe" class="mr-3 mt-3 rounded-circle" style="width:45px;">
             <div class="media-body">
-              <h5>{{reply.author}} <small><i>Posted on {{reply.date_added}}</i></small></h5>
-              <p>{{reply.reply_body}}</p>
+              <h4>{{reply.author}} <small><i>Posted on {{reply.date_added}}</i></small></h4>
+              <p>{{reply.body}}</p>
             </div>
           </div>
           {% endfor %}
-          form to post reply
+          <!-- form to post reply -->
           <form method="post">
             <input type="hidden" name="comment.id" value="{{comment.id}}">
             <input type="hidden" name="comment.comm_name" value="{{comment.comm_name}}">
             {% csrf_token %}
-            {{form2.as_p}}
-            <input type="submit" name="form2" value="Add Reply" class="btn btn-warning btn-sm">
+            {{comment_form.as_p}}
+            <input type="submit" name="comment_form" value="Add Reply" class="btn btn-warning btn-sm">
           </form>
         </div>
       </div>
     </div>
     {% endfor %}
-  </div> -->
+  </div>
+
 </section>
 
 {%endblock%}
