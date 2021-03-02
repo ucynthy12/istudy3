@@ -62,7 +62,7 @@ class CourseView(APIView):
   def post(self):
     pass 
 
-class SubjectsView(APIView):
+class SubjectsApiView(APIView):
   def get(self,request):
     subjects=Subject.objects.all()
     serializer=SubjectSerializer(subjects,many=True)
