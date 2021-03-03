@@ -16,7 +16,7 @@ def CourseListView(request):
   courses = Course.objects.all()
   return render(request,'course_list.html',{"courses":courses})
 
-@login_required(login_url='login')
+@login_required
 def SubjectsView(request,course_id):
   course=Course.objects.get(id=course_id)
   subjects = Subject.objects.filter(course=course)
@@ -101,15 +101,6 @@ class LessonDeleteView(DeleteView):
 
   def get_success_url(self):
         return reverse_lazy('curriculum:course_list')
-
-
-
-
-
-
-
-
-
 
 
 
