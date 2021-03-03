@@ -2,6 +2,7 @@ from django.db import models
 from cloudinary.models import CloudinaryField
 from istudy_users.models import User
 import os
+from mptt.models import MPTTModel , TreeForeignKey
 # Create your models here.
 
 class Course(models.Model):
@@ -59,29 +60,20 @@ class Lesson(models.Model):
         return self.name
 
     
-class Comment(models.Model):
-    lesson_name = models.ForeignKey(Lesson,null=True, on_delete=models.CASCADE,related_name='comments')
-    comm_name = models.CharField(max_length=100, blank=True)
-    reply = models.ForeignKey("Comment", null=True, blank=True, on_delete=models.CASCADE,related_name='commreplies')
-    author = models.ForeignKey(User,on_delete=models.CASCADE)
-    body = models.TextField(max_length=500)
-    date_added = models.DateTimeField(auto_now_add=True)
+class Comment(MPTTModel):
+    lesson = models.ForeignKey(Lesson,null=True, on_delete=models.CASCADE,related_name='comments')
+    parent = TreeForeignKey('self', on_delete=models.CASCADE,null=True, blank=True, related_name='children')
+    author = models.CharField(max_length=50)
+    content = models.TextField(max_length=500)
+    publish= models.DateTimeField(auto_now_add=True)
 
 
     
     def __str__(self):
-        return self.comm_name
-    class Meta:
-        ordering = ['-date_added']
-        
-class Reply(models.Model):
-    comment_name = models.ForeignKey(Comment, on_delete=models.CASCADE,related_name='replies')
-    reply_body = models.TextField(max_length=500)
-    author = models.ForeignKey(User,on_delete=models.CASCADE)
-    date_added = models.DateTimeField(auto_now_add=True)
-    def __str__(self):
-        return "reply to " + str(self.comment_name.comm_name)
-
+        return f'Comment by {self.author}'
+    class MPTTMeta:
+        order_insertion_by = ['publish']
+ 
 
     
     

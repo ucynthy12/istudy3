@@ -16,7 +16,6 @@
         @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
 
         body {
-            font-family: 'Source Code Pro', monospace;
             font-size: 14px;
             background-size: 200% 100% !important;
             animation: move 10s ease infinite;
@@ -30,6 +29,31 @@
             max-width: 340px;
             margin: 10vh auto;
         }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: #76B947;
+            text-shadow: 2px 8px 6px rgba(0, 0, 0, 0.2), 0px -5px 35px rgba(255, 255, 255, 0.3);
+            font-family: 'Atma', cursive;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .navbar-expand-lg {
+            background-color: #b2ebf2;
+        }
+
+        @media (max-width: 768px) {
+            .navbar:not(.top-nav-collapse) {
+                background-color: #b2ebf2;
+            }
+        }
+
+        @media (min-width: 800px) and (max-width: 850px) {
+            .navbar:not(.top-nav-collapse) {
+                background-color: #b2ebf2;
+            }
+        }
+
 
         .user__header {
             text-align: center;
@@ -150,7 +174,6 @@
                 background-position: 0 0
             }
         }
-        
     </style>
 
 </head>

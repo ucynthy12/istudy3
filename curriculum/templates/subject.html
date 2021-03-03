@@ -6,9 +6,9 @@
 <header class="info-header">
   <div id="page-intro" class="container-fluid d-flex align-items-center justify-content-center ">
     <div class="row d-flex justify-content-center text-center">
-      <div class="col-md-10 text-white">
+      <div class="col-md-12 text-white">
         <!-- heading -->
-        <h2 class="display-4 font-weight-bold  p-5 " style="color:#76B947;font-family: 'Source Code Pro', monospace;" >Subjects</h2>
+        <h2 class="display-4 font-weight-bold  p-5 "  style="color:#76B947;font-family: 'Atma', cursive;letter-spacing: 4px;"  >Subjects</h2>
         <div class="row d-flex justify-content-center text-center">
           <ul class="breadcrumb" style="font-family: 'Source Code Pro', monospace;text-shadow: 2px 8px 6px rgba(0,0,0,0.2),0px -5px 35px rgba(255,255,255,0.3);">
             <li><a href="{% url 'index' %}">Home</a></li>
@@ -25,24 +25,24 @@
         <hr style="color:#76B947;">
 
         <!-- description -->
-        <h4 class="white-text my-4">“Learning never exhausts the mind.” – Leonardo da Vinci.</h4>
+        <!-- <h4 class="white-text my-4">“Learning never exhausts the mind.” – Leonardo da Vinci.</h4> -->
   </div>
 </header>
 <section id="best-features" class="text-center">
-              <h2 class="mb-5 mt-5 font-weight-bold" style="color:#76B947;">Master The Subject</h2>
+              <h2 class="mb-5 mt-5 font-weight-bold"  style="color:#76B947;font-family: 'Atma', cursive;letter-spacing: 4px;" >Master The Subject</h2>
               <!-- class row for description-->
               
               <!-- class row2 for cards -->
               <div class="row d-flex justify-content-center mb-3">
               {% for subject in subjects %}
-              <div class="card mb-5 mr-4 ml-4 box-shadow-hover" style="max-width: 500px;">
+              <div class="card mb-5 mr-4 ml-4 box-shadow-hover" style="max-width: 500px;background-color:#8ccc5e;color: #fff;">
                 <div class="row no-gutters">
                           <div class="col-md-4" style="object-fit: contain;">
                             <img src="{{subject.image.url|default_if_none:'#'}}" class="card-img" alt="No image found" height="200px" width="200px ">
                           </div>
                           <div class="col-md-8">
                             <div class="card-body">
-                              <h4 class="card-title" style="color:#76B947;">{{subject.name}}</h4>
+                              <h4 class="card-title" style="color:#fff;font-family: 'Atma', cursive;letter-spacing: 4px;font-weight: bolder;"><i class="fas fa-laptop"></i>&nbsp;{{subject.name}}</h4>
                               <p class="card-text">{{subject.description|truncatechars:75}}</p>
                               <p class="card-text"><small class="text-muted"></small></p>
                                   <a href="{% url 'curriculum:lessons-list' course.id subject.id %}"><button class="button-les"> <span> Get Lessons</span></button></a>

@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Kranky&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Atma:wght@300&display=swap');
 html,body,#intro{
     height: 100%;
+   font-family: 'Source Code Pro', monospace;
 }
 
 #intro {
@@ -26,7 +28,9 @@ html,body,#intro{
 .navbar-light .navbar-nav .nav-link {
     color: #76B947;
     text-shadow: 2px 8px 6px rgba(0,0,0,0.2),0px -5px 35px rgba(255,255,255,0.3);
-    font-family: 'Source Code Pro', monospace;
+    font-family: 'Atma', cursive;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .navbar-light .nav-link {
@@ -145,7 +149,8 @@ ul.breadcrumb li a:hover {
 
 .card-std{
     border-radius: 4px;
-    background: #fff;
+    background: #8ccc5e;
+    color:#fff;
     box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
     transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
     padding: 14px 14px 14px 14px;
@@ -164,7 +169,7 @@ ul.breadcrumb li a:hover {
 /* get lesson button */
 .button-les {
   border-radius: 4px;
-  background-color: #00bcd4;
+  background-color: #d4d000;
   border: none;
   color: #FFFFFF;
   text-align: center;

@@ -86,6 +86,7 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'curriculum',
     'crispy_forms',
+    'mptt'
 ]
 
 SITE_ID = 1
@@ -187,8 +188,8 @@ REST_FRAMEWORK ={
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
-        # 'istudy_users.backends.JWTAuthentication'
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'istudy_users.backends.JWTAuthentication',
 
     ],
     # 'DEFAULT_PERMISSION_CLASSES':[

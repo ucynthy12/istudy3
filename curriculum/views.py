@@ -6,9 +6,10 @@ from rest_framework import status
 from .serializers import *
 from .models import Course, Subject, Lesson,Comment
 from django.urls import reverse_lazy
-from .forms import LessonForm,LessonUpdateForm,CommentForm,ReplyForm
+from .forms import LessonForm,LessonUpdateForm,CommentForm
 from django.http import HttpResponseRedirect,FileResponse
 from django.views.generic import DeleteView
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 
 
 def CourseListView(request):
@@ -32,25 +33,33 @@ def LessonsView(request,course_id,subject_id):
 def LessonDetailView(request,subject_id,lesson_id):
   subject=Subject.objects.get(id=subject_id)
   lesson=Lesson.objects.get(id=lesson_id)
-  # print(lesson)
-  comments= Comment.objects.filter(lesson_name=lesson,reply=None).order_by('-id')
+  print(lesson)
+  allcomments= Comment.objects.filter(lesson=lesson).order_by('id')
+  page = request.GET.get('page',1)
+  paginator = Paginator (allcomments,3)
+
+  try:
+    comments = paginator.page(page)
+  except PageNotAnInteger:
+    comments = paginator.page(1)
+  except EmptyPage:
+    comments = paginator.page(paginator.num_pages)
+
+
+
+
+  user_comment = None
   if request.method == 'POST':
     comment_form = CommentForm(request.POST,request.FILES or None)
     if comment_form.is_valid():
-      body = request.data.get('body')
-      print(body)
-      reply_id = request.data.get('comment_id')
-      print(reply_id)
-      comment_qs =None
-      if reply_id:
-        comment_qs = Comment.objects.get(id=reply_id)
-      comment = Comment.objects.create(lesson_name=lesson,author=request.user,body=body,reply=comment_qs)
-      comment.save()
+      user_comment = comment_form.save(commit=False)
+      user_comment.lesson = lesson
+      user_comment.save()
       return redirect('curriculum:lesson-detail',subject.id,lesson.id)
   else:
     comment_form = CommentForm()
 
-  return render(request,'lesson_details.html',{"subject":subject,"lesson":lesson,'comment_form':comment_form})
+  return render(request,'lesson_details.html',{"subject":subject,"lesson":lesson,'comment_form':comment_form,'comments':comments,'allcomments': allcomments,})
 
 def LessonCreateView(request,course_id,subject_id):
   course= Course.objects.get(id=course_id)
@@ -79,7 +88,7 @@ def LessonUpdateView(request,subject_id,lesson_id):
     form = LessonUpdateForm(request.POST,request.FILES,instance=lesson)
     if form.is_valid():
       form.save()
-      return redirect('lesson-detail',subject.id,lesson.id)
+      return redirect('curriculum:lesson-detail',subject.id,lesson.id)
   
   else:
     form= LessonUpdateForm(instance=lesson)
@@ -131,56 +140,3 @@ class LessonView(APIView):
   def post(self):
     pass 
 
-class LessonDetailView(DetailView, FormView):
-
-  context_object_name = 'lessons'
-  model = Lesson
-  template_name = 'curriculum/lesson_details.html'
-  form_class = CommentForm
-  second_form_class = ReplyForm    
-  def get_context_data(self, **kwargs):
-    context = super(LessonDetailView, self).get_context_data(**kwargs)
-    if 'form' not in context:
-      context['form'] = self.form_class(request=self.request)
-      if 'form2' not in context:
-      context['form2'] = self.second_form_class(request=self.request)
-        # context['comments'] = Comment.objects.filter(id=self.object.id)
-      return context   
-        
-  def post(self, request, *args, **kwargs):
-     self.object = self.get_object()
-     if 'form' in request.POST:
-       form_class = self.get_form_class()
-         form_name = 'form'
-     else:
-       form_class = self.second_form_class
-       form_name = 'form2'       
-       form = self.get_form(form_class)
-        # print("the form name is : ", form)
-        # print("form name: ", form_name)
-        # print("form_class:",form_class)        if form_name=='form' and form.is_valid():
-       print("comment form is returned")
-            return self.form_valid(form)
-        elif form_name=='form2' and form.is_valid():
-            print("reply form is returned")
-            return self.form2_valid(form)    def get_success_url(self):
-        self.object = self.get_object()
-        standard = self.object.Standard
-        subject = self.object.subject
-        return reverse_lazy('curriculum:lesson_detail',kwargs={'standard':standard.slug,
-                                                             'subject':subject.slug,
-                                                             'slug':self.object.slug})
-    def form_valid(self, form):
-        self.object = self.get_object()
-        fm = form.save(commit=False)
-        fm.author = self.request.user
-        fm.lesson_name = self.object.comments.name
-        fm.lesson_name_id = self.object.id
-        fm.save()
-        return HttpResponseRedirect(self.get_success_url())    def form2_valid(self, form):
-        self.object = self.get_object()
-        fm = form.save(commit=False)
-        fm.author = self.request.user
-        fm.comment_name_id = self.request.POST.get('comment.id')
-        fm.save()
-        return HttpResponseRedirect(self.get_success_url())
