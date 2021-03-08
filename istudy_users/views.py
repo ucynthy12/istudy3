@@ -19,6 +19,11 @@ from .permissions import IsAdminOrReadOnly
 from .email import send_welcome_email
 from django.contrib import messages
 from curriculum.models import Course
+import jwt
+from django.conf import settings
+from django.contrib import auth
+
+
 
 def index(request):
     courses = Course.objects.all()
@@ -136,7 +141,7 @@ class LoginView(GenericAPIView):
             data = {
                 'user':serializer.data,'token':auth_token
             }   
-        return Response(data,status=status.HTTP_200_OK)
+            return Response(data,status=status.HTTP_200_OK)
 
 
         return Response({'detail':'Invalid Credentitials'},status=status.HTTP_401_UNAUTHORIZED)

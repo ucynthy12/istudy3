@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Lesson Delete {% endblock %}
+
+{% block content %}
+
+<h3 class="mb-4 text-center" style="color:#ff5722;margin-top: 10%;">Are you sure you want to delete {{lessons.name}} chapter?</h3>
+<div class="card text-center">
+
+        <div class="card-body">
+                <form method="post">
+                        {% csrf_token %}
+                        <div class="row ml-5 mr-5">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-4 mb-3 mr-3">
+                                        <input type="submit" value="Delete" class="btn btn-danger btn-block">
+                                </div>
+                                <div class="col-md-4 mb-3 mr-3">
+                                        <a href="{% url 'curriculum:lesson-detail' subject_id=lesson.subject.id lesson_id=lesson.id %}"
+                                                class="btn btn-warning btn-block">Cancel Deletion</a>
+                                </div>
+                                <div class="col-md-2"></div>
+
+                        </div>
+                </form>
+        </div>
+</div>
+
+{% endblock %}

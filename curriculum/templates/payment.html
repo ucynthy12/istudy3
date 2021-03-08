@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Payment {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="jumbotron text-center">
+        <p>Your Payment was successfull!</p>
+        <a href="{% url 'curriculum:subjects-list' course.id %}" class="btn btn-warning" style="font-family: 'Source Code Pro', monospace;">Start lesson</a>
+    </div>
+</div>
+{%endblock%}

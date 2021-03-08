@@ -2,6 +2,7 @@ from django.db import models
 from cloudinary.models import CloudinaryField
 from istudy_users.models import User
 import os
+from mptt.models import MPTTModel , TreeForeignKey
 # Create your models here.
 
 class Course(models.Model):
@@ -59,8 +60,20 @@ class Lesson(models.Model):
         return self.name
 
     
+class Comment(MPTTModel):
+    lesson = models.ForeignKey(Lesson,null=True, on_delete=models.CASCADE,related_name='comments')
+    parent = TreeForeignKey('self', on_delete=models.CASCADE,null=True, blank=True, related_name='children')
+    author = models.CharField(max_length=50)
+    content = models.TextField(max_length=500)
+    publish= models.DateTimeField(auto_now_add=True)
 
 
+    
+    def __str__(self):
+        return f'Comment by {self.author}'
+    class MPTTMeta:
+        order_insertion_by = ['publish']
+ 
 
     
     
