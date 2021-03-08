@@ -22,6 +22,10 @@ def SubjectsView(request,course_id):
   subjects = Subject.objects.filter(course=course)
   return render(request,'subject.html',{"course":course,"subjects":subjects})
 
+def payment(request,course_id):
+  course=Course.objects.get(id=course_id)
+  subjects = Subject.objects.filter(course=course)
+  return render(request,'payment.html',{"course":course,"subjects":subjects})
 
 def LessonsView(request,course_id,subject_id):
   course=Course.objects.get(id=course_id)

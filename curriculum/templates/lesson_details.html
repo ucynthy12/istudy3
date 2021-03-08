@@ -35,6 +35,12 @@
     color: #fff;
     font-weight: bold;
   }
+  .card-2{
+    background: #d4f0c6;
+    font-weight: bold;
+    color: black;
+  }
+  
 </style>
 
 <section class="text-center">
@@ -151,7 +157,7 @@
       {% load mptt_tags %}
       <div>
         {% recursetree comments %}
-        <div id="{{ node.id }}" class="my-2 p-2" style="border: 1px solid grey;">
+        <div id="{{ node.id }}" class="my-2 p-2" style="border: 1px solid grey; box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);border-radius: 20px;">
           <div class="font-weight-bold">
             <img src="https://res.cloudinary.com/ucynthy12/image/upload/v1609854539/421-4212275_transparent-default-avatar-png-avatar-img-png-download_cgxfx9.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:30px;">
             By {{ node.author }}<div class="float-right">{{ node.publish }}</div>
@@ -232,7 +238,7 @@
     }
     var a = document.getElementById(id);
 
-    a.insertAdjacentHTML('afterend', '<form id="newForm" class="form-insert py-2" method="post"> \
+    a.insertAdjacentHTML('afterend', '<div class="card card-2" id="newForm" ><div class="card-body"><form class="form-insert py-2" method="post"> \
                 <div class="d-flex justify-content-between"><h2>Reply:</h2><div><button type="button" class="btn btn-outline-secondary" onclick="formExit()"">Close</button></div></div> \
                 <label for="id_author">Author:</label> \
                 <input type="text" name="author" class="col-sm-12" maxlength="50" required="" id="id_author">\
@@ -241,8 +247,8 @@
                 </select>  \<label for="id_content">Content:</label> \
                 <textarea name="content" cols="40" rows="5" class="form-control" required id="id_content"></textarea> \
                 {% csrf_token %} \
-                <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button> \
-              </form>');
+                <button type="submit" class="btn btn-warning btn-lg btn-block ">Submit</button> \
+              </form></div></div>');
 
   }
   $(document).ready(function () {

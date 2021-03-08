@@ -21,7 +21,7 @@
                         <a class="nav-link mx-3"  href="{% url 'admin:index' %}">Admin</span> </a>
                     </li>
                     {% endif %}
-                    <a class="nav-item nav-link mx-3"  href="">About</a>
+                    <a class="nav-item nav-link mx-3"  href="{% url 'about' %}">About</a>
                     <a class="nav-item nav-link mx-3"  href="{% url 'profile' user.username %}">Profile</a>
                     <a class="nav-item nav-link mx-3"  href="{% url 'logout' %}">Logout</a>
                     {% else %}
