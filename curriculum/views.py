@@ -11,7 +11,6 @@ from django.http import HttpResponseRedirect,FileResponse
 from django.views.generic import DeleteView
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 
-
 def CourseListView(request):
   courses = Course.objects.all()
   return render(request,'course_list.html',{"courses":courses})
@@ -50,14 +49,13 @@ def LessonDetailView(request,subject_id,lesson_id):
     comments = paginator.page(paginator.num_pages)
 
 
-
-
   user_comment = None
   if request.method == 'POST':
     comment_form = CommentForm(request.POST,request.FILES or None)
     if comment_form.is_valid():
       user_comment = comment_form.save(commit=False)
       user_comment.lesson = lesson
+      user_comment.author = request.user
       user_comment.save()
       return redirect('curriculum:lesson-detail',subject.id,lesson.id)
   else:

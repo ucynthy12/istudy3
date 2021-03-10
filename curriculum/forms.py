@@ -36,4 +36,7 @@ class CommentForm(forms.ModelForm):
             'content': forms.Textarea(attrs={'class':'form-control', 'rows':4, 'cols':70, 'placeholder':"Enter Your Comment"}),
         }
         fields = ('author','content','parent')
+        exclude = ['author']
+
+
         

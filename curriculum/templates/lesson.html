@@ -61,7 +61,7 @@
 
   {% endfor %}
   <div class="row d-flex justify-content-center mb-3">
-    {% if user.userprofileinfo.user_type == 'teacher' or user.is_superuser %}
+    {% if user.role == 'teacher' or user.is_superuser %}
     <a href="{% url 'curriculum:create' subject_id=subjects.id course_id=course.id %}"><button type="button"
         class="btn btn-success btn-lg btn-bloc"><i class="fas fa-plus"></i>&nbsp; Add new Lesson </button> </a>
     {% endif %}

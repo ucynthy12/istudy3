@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'registration/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="container " style="margin-top:5%">
@@ -10,7 +10,7 @@
             <div class="card "
                 style="width: 18rem;	box-shadow: 0 1px #FFFFFF inset, 0 1px 3px rgba(34, 25, 25, 0.4); font-family: 'Source Code Pro', monospace;">
                 {% if user.profile.profile_picture %}
-                <img class="card-img-top" src="{{ user.profile.profile_picture.url }} " height="250">
+                <img class="card-img-top" src="{{ user.profile.profile_picture.url }} " height="250" style="object-fit: cover;">
                 {% else%}
                 <img class="card-img-top"
                     src="https://res.cloudinary.com/ucynthy12/image/upload/v1609854539/421-4212275_transparent-default-avatar-png-avatar-img-png-download_cgxfx9.png"

@@ -63,7 +63,7 @@ class Lesson(models.Model):
 class Comment(MPTTModel):
     lesson = models.ForeignKey(Lesson,null=True, on_delete=models.CASCADE,related_name='comments')
     parent = TreeForeignKey('self', on_delete=models.CASCADE,null=True, blank=True, related_name='children')
-    author = models.CharField(max_length=50)
+    author = models.ForeignKey(User,null=True, on_delete=models.CASCADE)
     content = models.TextField(max_length=500)
     publish= models.DateTimeField(auto_now_add=True)
 

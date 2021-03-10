@@ -24,7 +24,6 @@ from django.conf import settings
 from django.contrib import auth
 
 
-
 def index(request):
     courses = Course.objects.all()
     return render(request,'home.html',{"courses":courses})
@@ -67,25 +66,33 @@ def register(request):
 
 
 def user_login(request):
-    if request.method == "POST":
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+    title = "Login"
+    form = UserLoginForm(request.POST or None)
+    if form.is_valid():
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password')
+    
+    return render(request,'registration/login.html',{'form':form,'title':title})
 
-        user = authenticate(username=username,password=password)
+    # if request.method == "POST":
+    #     username = request.POST.get('username')
+    #     password = request.POST.get('password')
 
-        if user:
-            if user.is_active:
-                login(request,user)
-                return HttpResponseRedirect(reverse('index'))
+    #     user = authenticate(username=username,password=password)
+
+    #     if user:
+    #         if user.is_active:
+    #             login(request,user)
+    #             return HttpResponseRedirect(reverse('index'))
             
-            else:
-                return HttpResponse('ACCOUNT IS DEACTIVATED')
+    #         else:
+    #             return HttpResponse('ACCOUNT IS DEACTIVATED')
 
-        else:
-            return HttpResponse('Please use correct id and password')
+    #     else:
+    #         return HttpResponse('Please use correct id and password')
 
-    else:
-        return render(request,'registration/login.html')
+    # else:
+    #     return render(request,'registration/login.html')
 
 @login_required
 def user_logout(request):
@@ -127,24 +134,27 @@ def registration_view(request):
 
 
 class LoginView(GenericAPIView):
-    def post(self,request):
+    serializer_class = LoginSerializer
+
+    def post(self, request):
         data = request.data
-        username = data.get('username','')
-        password = data.get('password','')
-        user = auth.authenticate(username=username,password=password)
+        username = data.get('username', '')
+        password = data.get('password', '')
+        user = auth.authenticate(username=username, password=password)
 
         if user:
-            auth_token = jwt.encode({'username':user.username},settings.JWT_SECRET_KEY)
+            auth_token = jwt.encode(
+                {'id':user.pk,'username': user.username,'email':user.email,'full_name':user.full_name,'phone_number':user.phone_number,'role':user.role}, settings.JWT_SECRET_KEY)
 
-            serializer = UserSerializer(user,many=True)  
+            serializer = UserDetailsSerializer(user)
 
-            data = {
-                'user':serializer.data,'token':auth_token
-            }   
-            return Response(data,status=status.HTTP_200_OK)
+            data = {'user': serializer.data, 'token': auth_token}
 
+            return Response(data, status=status.HTTP_200_OK)
 
-        return Response({'detail':'Invalid Credentitials'},status=status.HTTP_401_UNAUTHORIZED)
+            # SEND RES
+        return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
 
 
 @login_required(login_url='login')
