@@ -3,10 +3,29 @@
 {% block title %} Payment {% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="jumbotron text-center">
-        <p>Your Payment was successfull!</p>
-        <a href="{% url 'curriculum:subjects-list' course.id %}" class="btn btn-warning" style="font-family: 'Source Code Pro', monospace;">Start lesson</a>
-    </div>
+<div class="container" style="margin-top: 7%;">
+   <div class="row">
+       <div class="col-lg-3 col-md-2"></div>
+       <div class="col-lg-6 col-md-8">
+        <div class="card box-shadow-hover text-center">
+            <div>
+                <h3  class="card-title">Order summary</h3>
+            <hr style="color:#76B947; width: 60%;">
+
+            </div>
+            <div class="card-body">
+                <div class="row ">
+                    <div class="col-md-8">{{course.name|title}} courses</div>
+                    <div class="col-md-4">RWF100</div>
+
+                    <a href="" class="btn btn-warning btn-block mt-2">Pay</a>
+                    
+                </div>
+            
+            </div>
+        </div>
+       </div>
+       <div class="col-lg-3 col-md-2"></div>
+   </div>
 </div>
 {%endblock%}

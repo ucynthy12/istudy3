@@ -13,7 +13,7 @@ urlpatterns = [
     path('1/api/courses/',views.CourseView.as_view()),
     path('1/api/subjects/',views.SubjectsApiView.as_view()),
     path('1/api/lessons/',views.LessonView.as_view()),
-    path('<course_id>/payment/', views.payment, name='payment'),
+    path('1/<course_id>/payment/', views.payment, name='payment'),
 
 
 ]

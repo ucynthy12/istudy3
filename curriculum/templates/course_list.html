@@ -36,7 +36,8 @@
     <div class="col-md-8">
       <p class="grey-text" style="font-size: 20px;">Istudy is an online learning tool for kids from Kindergarden to
         Grade 3 three. The lessons and materials
-        provided are based on the class. Find the one suitable for your kid, and start enjoying learning with us!<br>To get started just pay a one time fee of RWF100</p>
+        provided are based on the class. Find the one suitable for your kid, and start enjoying learning with us!<br>To
+        get started just pay a one time fee of RWF100</p>
     </div>
   </div>
 </div>
@@ -53,16 +54,18 @@
             style="color:#fff;font-family: 'Atma', cursive;letter-spacing: 4px;font-weight: bolder;"><i
               class="fas fa-child"></i>&nbsp;{{course.name}}</h4>
           <p class="card-text">{{course.description|truncatechars:75}}</p>
-         
-            
-          
-          {% if user.is_authenticated and user.userprofileinfo.user_type == 'teacher' or user.is_superuser %}
-          <a href="{% url 'curriculum:subjects-list' course.id %}" class="btn btn-warning" style="font-family: 'Source Code Pro', monospace;">Let's get started</a>
+
+          {% if user.is_authenticated %}
+          {% if user.role == 'teacher' or user.is_superuser %}
+          <a href="{% url 'curriculum:subjects-list' course.id %}" class="btn btn-warning"
+            style="font-family: 'Source Code Pro', monospace;">Let's get started</a>
           {%else%}
           <a href="https://ravesandbox.flutterwave.com/pay/istudy" class="btn btn-warning"
             style="font-family: 'Source Code Pro', monospace;">Let's get started</a>
 
-          <!-- <a href="{% url 'login' %}" class="btn btn-warning">Login</a> -->
+          {%endif%}
+          {%else%}
+          <a href="{% url 'login' %}" class="btn btn-warning">Login</a>
           {%endif%}
         </div>
       </div>

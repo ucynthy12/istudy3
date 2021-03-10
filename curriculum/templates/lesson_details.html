@@ -21,7 +21,7 @@
   .card {
     background: #8ccc5e;
     color: #fff;
-    
+
   }
 
   .card-title {
@@ -30,17 +30,18 @@
     letter-spacing: 4px;
     font-weight: bolder;
   }
-  .card-1{
+
+  .card-1 {
     background: #b0ec85;
     color: #fff;
     font-weight: bold;
   }
-  .card-2{
+
+  .card-2 {
     background: #d4f0c6;
     font-weight: bold;
     color: black;
   }
-  
 </style>
 
 <section class="text-center">
@@ -56,14 +57,18 @@
 
   <div class="row d-flex justify-content-center mb-3">
     <div id="player-overlay">
-      <video controls>
-        {% if lesson.video.url %}
-        <source src="{{lesson.video.url}}" type="video/mp4">
-        {% else %}
-        <source src="#" type="video/mp4">
-        {%endif%}
+      {% if lesson.video.url %}
 
+      <video controls>
+        <source src="{{lesson.video.url}}" type="video/mp4">
       </video>
+
+      {% else %}
+      <video controls>
+      <source src="#" type="video/mp4">
+      </video>
+      {%endif%}
+
     </div>
   </div>
 
@@ -128,7 +133,7 @@
     </div>
     <!-- update and delete button -->
     <div class="row d-flex justify-content-center mb-3 mt-3">
-      {% if user.userprofileinfo.user_type == 'teacher' or user.is_superuser %}
+      {% if user.role == 'teacher' or user.is_superuser %}
       <div class="col-md-6 mb-3 text-center">
         <a href="{% url 'curriculum:lesson-update' subject_id=subject.id lesson_id=lesson.id %}"
           class="btn btn-warning btn-lg mr-4 btn-block">Update Lesson</a>
@@ -157,9 +162,12 @@
       {% load mptt_tags %}
       <div>
         {% recursetree comments %}
-        <div id="{{ node.id }}" class="my-2 p-2" style="border: 1px solid grey; box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);border-radius: 20px;">
+        <div id="{{ node.id }}" class="my-2 p-2"
+          style="border: 1px solid grey; box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);border-radius: 20px;">
           <div class="font-weight-bold">
-            <img src="https://res.cloudinary.com/ucynthy12/image/upload/v1609854539/421-4212275_transparent-default-avatar-png-avatar-img-png-download_cgxfx9.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:30px;">
+            <img
+              src="https://res.cloudinary.com/ucynthy12/image/upload/v1609854539/421-4212275_transparent-default-avatar-png-avatar-img-png-download_cgxfx9.png"
+              alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:30px;">
             By {{ node.author }}<div class="float-right">{{ node.publish }}</div>
           </div>
           <div class="mt-2 ml-5">{{ node.content }}</div>
@@ -206,7 +214,7 @@
 
       <hr style="color:#76B947;">
 
-      <h2  style="color:#76B947;font-family: 'Source Code Pro', monospace;">Make a new comment</h2>
+      <h2 style="color:#76B947;font-family: 'Source Code Pro', monospace;">Make a new comment</h2>
 
       <div class="card card-1">
         <div class="card-body">
@@ -218,7 +226,7 @@
         </div>
       </div>
 
-      
+
 
     </div>
   </div>
@@ -240,11 +248,10 @@
 
     a.insertAdjacentHTML('afterend', '<div class="card card-2" id="newForm" ><div class="card-body"><form class="form-insert py-2" method="post"> \
                 <div class="d-flex justify-content-between"><h2>Reply:</h2><div><button type="button" class="btn btn-outline-secondary" onclick="formExit()"">Close</button></div></div> \
-                <label for="id_author">Author:</label> \
-                <input type="text" name="author" class="col-sm-12" maxlength="50" required="" id="id_author">\
+                \
                 <select name="parent" class="d-none" id="id_parent"> \
                 <option value="' + id + '" selected="' + id + '"></option> \
-                </select>  \<label for="id_content">Content:</label> \
+                </select>  \<label for="id_content">Comment:</label> \
                 <textarea name="content" cols="40" rows="5" class="form-control" required id="id_content"></textarea> \
                 {% csrf_token %} \
                 <button type="submit" class="btn btn-warning btn-lg btn-block ">Submit</button> \

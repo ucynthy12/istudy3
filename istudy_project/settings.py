@@ -184,21 +184,21 @@ ACCOUNT_EMAIL_REQUIRED = False
 REST_FRAMEWORK ={
     # 'DEFAULT_AUTHENTICATION_CLASSES':[
     # ],
-      'DEFAULT_AUTHENTICATION_CLASSES': [
+      'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
         'istudy_users.backends.JWTAuthentication',
 
-    ],
+      ),
     # 'DEFAULT_PERMISSION_CLASSES':[
     #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     # ],
     'USER_DETAILS_SERIALIZER':'istudy_users.serializer.UserDetailsSerializer'
 }
 
-JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
+JWT_SECRET_KEY='JWT_SECRET_KEY_JWT_SECRET_KEY'
 
 
 LOGIN_REDIRECT_URL='index'
