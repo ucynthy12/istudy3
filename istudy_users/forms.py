@@ -49,23 +49,6 @@ class UpdateUserProfileForm(forms.ModelForm):
 
 class UserLoginForm(forms.Form):
     username = forms.CharField()
-<<<<<<< HEAD
-    password = forms.CharField(widget=forms.PasswordInput)
-
-    def clean(self,*args,**kwargs):
-        username = self.cleaned_data.get('username')
-        password = self.cleaned_data.get('password')
-
-        user = authenticate(username=username,password=password)
-        if not user:
-            raise forms.ValidationError('this user does not exist')
-        if not user.check_password(password):
-            raise forms.ValidationError('Incorrect password')
-
-        if not user.is_active:
-            raise forms.ValidationError('This user is not longer active.')
-        return super(UserLoginForm,self).clean(*args,**kwargs)
-=======
     password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
@@ -139,4 +122,3 @@ class RegisterForm(forms.Form):
             raise forms.ValidationError('This email is already in use')
         return email
 
->>>>>>> cynthia
