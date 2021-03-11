@@ -32,67 +32,47 @@ def about(request):
     return render(request,'about.html',{"courses":courses})    
 
 def register(request):
-
-    registered = False
-
-    if request.method == "POST":
-        user_form = UserForm(data=request.POST)
-
-        if user_form.is_valid():
-            user_form.save()
-            username = user_form.cleaned_data.get('username')
-            password = user_form.cleaned_data.get('password1')
-            email = user_form.cleaned_data['email']
-            user = authenticate(username=username,password=password)
+    form = RegisterForm(request.POST or None)
+    if form.is_valid():
+        username =form.cleaned_data.get('username')
+        email =form.cleaned_data['email']
+        password =form.cleaned_data.get('password1')
+        password2 =form.cleaned_data.get('password2')
+        
+        try:
+            user = User.objects.create_user(username,email,password)
+        
+        except:
+            user = None
+        
+        if user !=None:
+                        
             login(request,user)
-
-            messages.success(request, f'Your account has been created, you can now login!')
-            # messages.success(request, f'Account created for {username}!')
+          
             send_welcome_email(username,email)
-            registered =True
             return redirect('index')
             
 
         else:
-            for msg in user_form.error_messages:
-                messages.error(request, f"{msg}: {user_form.error_messages[msg]}")
-            print(msg)
-            print(user_form.errors)
-    
-    else:
-        user_form = UserForm()
-
-    return render(request,'registration/registration_form.html',{'registered':registered,'user_form':user_form,})
+            request.session['register_error'] = 1
+            
+    return render(request,'registration/registration_form.html',{'form':form,})
 
 
 def user_login(request):
-    title = "Login"
     form = UserLoginForm(request.POST or None)
     if form.is_valid():
         username = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password')
-    
-    return render(request,'registration/login.html',{'form':form,'title':title})
+        user = authenticate(request,username=username,password=password)
 
-    # if request.method == "POST":
-    #     username = request.POST.get('username')
-    #     password = request.POST.get('password')
+        if user != None:
+            login(request,user)
+            return redirect('/')
+        else:
+            request.session['invalid_user'] = 1
+    return render(request,'registration/login.html',{'form':form})
 
-    #     user = authenticate(username=username,password=password)
-
-    #     if user:
-    #         if user.is_active:
-    #             login(request,user)
-    #             return HttpResponseRedirect(reverse('index'))
-            
-    #         else:
-    #             return HttpResponse('ACCOUNT IS DEACTIVATED')
-
-    #     else:
-    #         return HttpResponse('Please use correct id and password')
-
-    # else:
-    #     return render(request,'registration/login.html')
 
 @login_required
 def user_logout(request):
