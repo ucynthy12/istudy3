@@ -1,47 +1,16 @@
-{% extends 'registration/base.html' %}
 {% load static %}
-
+{% load crispy_forms_tags %}
 {% block content %}
-{% if registered %}
-<h1>Thank you for registering</h1>
-{% else %}
+
 <div class="user">
     <header class="user__header">
-        <h1 class="user__title" style="color:#f6f7f5;font-family: 'Atma', cursive;letter-spacing: 4px; font-size: 20px;"> sign-up form</h1>
+        <h1 class="user__title"
+            style="color:#f6f7f5;font-family: 'Atma', cursive;letter-spacing: 4px; font-size: 20px;"> sign-up form</h1>
     </header>
-    <form class="form" action="" method="POST"  enctype="multipart/form-data"  novalidate>
-    {% csrf_token %}
-        <div class="form__group">
-            <input type="text" placeholder="Full name" name='full_name' class="form__input validate" />
-        </div>
-        <div class="form__group">
-            <input type="text" placeholder="Username" name="username" class="form__input validate" />
-        </div>
-        <div class="form__group">
-            <input type="email" placeholder="Email" name="email"class="form__input validate" />
-        </div>
-        <div class="form__group">
-            <input type="text" placeholder="Phone number" name="phone_number" class="form__input validate" />
-        </div>
-        <div class="form__group">
-            <input type="text" list="role" placeholder="Role" name="role" class="form__input validate" />
-            <datalist id="role">
-              <option value="student">student</option>
-              <option value="parent">parent</option>
-              <option value="teacher">teacher</option>
-
-
-
-            </datalist>
-        </div>
-        <div class="form__group">
-            <input type="password" placeholder="Password" name='password1' class="form__input validate" />
-        </div>
-        <div class="form__group">
-            <input type="password" placeholder="Confirm Password" name='password2' class="form__input validate" />
-        </div>
+    <form class="form" action="" method="POST" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        {{form|crispy}}
         <input type="submit" class="form__input" value="Register">
     </form>
 </div>
-{% endif %}
 {% endblock %}

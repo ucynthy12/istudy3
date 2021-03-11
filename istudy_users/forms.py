@@ -49,6 +49,7 @@ class UpdateUserProfileForm(forms.ModelForm):
 
 class UserLoginForm(forms.Form):
     username = forms.CharField()
+<<<<<<< HEAD
     password = forms.CharField(widget=forms.PasswordInput)
 
     def clean(self,*args,**kwargs):
@@ -64,3 +65,78 @@ class UserLoginForm(forms.Form):
         if not user.is_active:
             raise forms.ValidationError('This user is not longer active.')
         return super(UserLoginForm,self).clean(*args,**kwargs)
+=======
+    password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'class':'form-control',
+                'id':'user-password'
+            
+            }
+        )
+    )
+    # def clean(self):
+    #     username = self.cleaned_data.get('username')
+    #     password = self.cleaned_data.get('password')
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        qs = User.objects.filter(username__iexact=username)
+        if not qs.exists():
+            raise forms.ValidationError('This is an invid user.')
+        return username
+
+class RegisterForm(forms.Form):
+    full_name = forms.CharField()
+    username = forms.CharField()
+    email = forms.EmailField(required=True)
+    phone_number = forms.CharField()
+    password = forms.CharField(
+        label='Password',
+        widget=forms.PasswordInput(
+            attrs={
+                'class':'form-control',
+                'id':'user-password'
+            
+            }
+        )
+    )
+    password2 = forms.CharField(
+        label = 'Confirm Password',
+
+        widget=forms.PasswordInput(
+            attrs={
+                'class':'form-control',
+                'id':'user-password'
+            
+            }
+        )
+    )
+    parent = 'parent'
+    student = 'student'
+    taecher = 'teacher'
+    
+    roles=[
+        ('parent','parent'),
+        ('student','student'),
+        ('teacher','teacher'),
+    ]
+    role = forms.ChoiceField(required=True,choices=roles)
+
+   
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        qs = User.objects.filter(username__iexact=username)
+        if qs.exists():
+            raise forms.ValidationError('This is an invid username,please pick another.')
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        qs = User.objects.filter(email__iexact=email)
+        if qs.exists():
+            raise forms.ValidationError('This email is already in use')
+        return email
+
+>>>>>>> cynthia
