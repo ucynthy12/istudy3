@@ -32,31 +32,24 @@ def about(request):
     return render(request,'about.html',{"courses":courses})    
 
 def register(request):
-    form = RegisterForm(request.POST or None)
-    if form.is_valid():
-        username =form.cleaned_data.get('username')
-        email =form.cleaned_data['email']
-        password =form.cleaned_data.get('password1')
-        password2 =form.cleaned_data.get('password2')
-        
-        try:
-            user = User.objects.create_user(username,email,password)
-        
-        except:
-            user = None
-        
-        if user !=None:
-                        
-            login(request,user)
-          
-            send_welcome_email(username,email)
-            return redirect('index')
-            
 
-        else:
-            request.session['register_error'] = 1
-            
-    return render(request,'registration/registration_form.html',{'form':form,})
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            user = form.cleaned_data.get('username')
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            user = authenticate(request,username = username,password = password)
+
+            if user is not None:
+                login(request,user)
+            return redirect('/')
+          
+    else:
+        form = UserForm()
+    return render(request, 'registration/registration_form.html', {'form': form})
 
 
 def user_login(request):
@@ -104,8 +97,8 @@ def registration_view(request):
             data['phone_number'] = user.phone_number
 
 
-            # token = Token.objects.get(user=user).key
-            # data['token'] = token
+            token = Token.objects.get(user=user).key
+            data['token'] = token
 
         else:
             data = serializer.errors

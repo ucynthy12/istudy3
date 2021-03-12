@@ -56,14 +56,16 @@
           <p class="card-text">{{course.description|truncatechars:75}}</p>
 
           {% if user.is_authenticated %}
-          {% if user.role == 'teacher' or user.is_superuser %}
-          <a href="{% url 'curriculum:subjects-list' course.id %}" class="btn btn-warning"
-            style="font-family: 'Source Code Pro', monospace;">Let's get started</a>
-          {%else%}
-          <a href="https://ravesandbox.flutterwave.com/pay/istudy" class="btn btn-warning"
-            style="font-family: 'Source Code Pro', monospace;">Let's get started</a>
+         
+          <form>
+            <script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
+            <!-- <a href="https://ravesandbox.flutterwave.com/pay/istudy" class="btn btn-warning"
+              style="font-family: 'Source Code Pro', monospace;">Let's get started</a> -->
+            <button type="button" onClick="payWithRave()">PAY</button>
 
-          {%endif%}
+          </form>
+
+
           {%else%}
           <a href="{% url 'login' %}" class="btn btn-warning">Login</a>
           {%endif%}
@@ -73,5 +75,26 @@
     {% endfor %}
   </div>
 </section>
+<script>
+  const publicKey = "FLWPUBK_TEST-8ab1af98e6782568cb219a9ba892737f-X";
+
+  function payWithRave() {
+    var x = getpaidSetup({
+      PBFPubKey: publicKey,
+      customer_email: "ucynthy13@gmail.com",
+      amount: 1000,
+      customer_phone: "0735055619",
+      currency: "RWF",
+      txref: "rave-123456",
+      custom_title: "istudy",
+      onclose: function () { },
+      callback: function (response) {
+        var txref = response.tx.txRef;
+        console.log("This is the response returned after a charge", response);
+        x.close();
+      }
+    });
+  }
+</script>
 
 {%endblock%}

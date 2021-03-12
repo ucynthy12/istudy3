@@ -1,16 +1,53 @@
+{% extends 'registration/base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
 
-<div class="user">
-    <header class="user__header">
-        <h1 class="user__title"
-            style="color:#f6f7f5;font-family: 'Atma', cursive;letter-spacing: 4px; font-size: 20px;"> sign-up form</h1>
-    </header>
-    <form class="form" action="" method="POST" enctype="multipart/form-data" novalidate>
-        {% csrf_token %}
-        {{form|crispy}}
-        <input type="submit" class="form__input" value="Register">
-    </form>
+
+<div class="main">
+
+    <section class="signup">
+        <!-- <img src="images/signup-bg.jpg" alt=""> -->
+        <div class="container">
+            <div class="signup-content">
+                <form id="signup-form" class="signup-form" method="POST" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+                    <h2 class="form-title">Create account</h2>
+                    <div class="form-group">
+                        <input type="text" class="form-input" name="full_name" id="name" placeholder="Your Full name"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-input" name="username" id="name" placeholder="Your username"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-input" name="email" id="email" placeholder="Your Email"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-input" name="phone_number" id="email" placeholder="Your Phone number"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-input" name="role" id="email" placeholder="Your Role"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-input" name="password1" id="password" placeholder="Password"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-input" name="password2" id="re_password" placeholder="Confirm your password"/>
+                    </div>
+                   
+                    <div class="form-group">
+                        <input type="submit" name="submit" id="submit" class="form-submit" value="Sign up"/>
+                    </div>
+                    {{form.errors}}
+                </form>
+                <p class="loginhere">
+                    Have already an account ? <a href="{% url 'login' %}" class="loginhere-link">Login here</a>
+                </p>
+
+            </div>
+        </div>
+    </section>
+
 </div>
 {% endblock %}
+

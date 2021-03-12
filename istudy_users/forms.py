@@ -7,16 +7,16 @@ from django.contrib.auth import authenticate,login,logout
 
 class UserForm(UserCreationForm):
     email = forms.EmailField(max_length=300,help_text='Required. Inform a valid email address')
-    parent = 'parent'
-    student = 'student'
-    taecher = 'teacher'
+    # parent = 'parent'
+    # student = 'student'
+    # taecher = 'teacher'
     
-    roles=[
-        ('parent','parent'),
-        ('student','student'),
-        ('teacher','teacher'),
-    ]
-    role = forms.ChoiceField(required=True,choices=roles)
+    # roles=[
+    #     ('parent','parent'),
+    #     ('student','student'),
+    #     ('teacher','teacher'),
+    # ]
+    # role = forms.ChoiceField(required=True,choices=roles)
     class Meta():
         model = User
         fields = ('full_name','username', 'email','role','phone_number','password1', 'password2',)
@@ -69,12 +69,12 @@ class UserLoginForm(forms.Form):
             raise forms.ValidationError('This is an invid user.')
         return username
 
-class RegisterForm(forms.Form):
+class SignUpForm(UserCreationForm):
     full_name = forms.CharField()
     username = forms.CharField()
     email = forms.EmailField(required=True)
     phone_number = forms.CharField()
-    password = forms.CharField(
+    password1 = forms.CharField(
         label='Password',
         widget=forms.PasswordInput(
             attrs={
@@ -95,24 +95,17 @@ class RegisterForm(forms.Form):
             }
         )
     )
-    parent = 'parent'
-    student = 'student'
-    taecher = 'teacher'
-    
-    roles=[
-        ('parent','parent'),
-        ('student','student'),
-        ('teacher','teacher'),
-    ]
-    role = forms.ChoiceField(required=True,choices=roles)
-
+   
+    class Meta():
+        model = User
+        fields = ('full_name','username', 'email','phone_number','role','password1', 'password2')
    
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
         qs = User.objects.filter(username__iexact=username)
         if qs.exists():
-            raise forms.ValidationError('This is an invid username,please pick another.')
+            raise forms.ValidationError('This is an invalid username,please pick another.')
         return username
 
     def clean_email(self):
@@ -122,3 +115,4 @@ class RegisterForm(forms.Form):
             raise forms.ValidationError('This email is already in use')
         return email
 
+    

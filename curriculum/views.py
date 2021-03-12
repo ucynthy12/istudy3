@@ -10,6 +10,8 @@ from .forms import LessonForm,LessonUpdateForm,CommentForm
 from django.http import HttpResponseRedirect,FileResponse
 from django.views.generic import DeleteView
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
+from django.views.generic.base import TemplateView
+from django.conf import settings
 
 def CourseListView(request):
   courses = Course.objects.all()
@@ -133,3 +135,11 @@ class LessonView(APIView):
   def post(self):
     pass 
 
+
+class HomePageView(TemplateView):
+    template_name = 'subject.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['key'] = settings.RAVE_PUBLIC_KEY
+        return context
