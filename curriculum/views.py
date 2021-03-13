@@ -12,10 +12,14 @@ from django.views.generic import DeleteView
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.views.generic.base import TemplateView
 from django.conf import settings
+import random
 
 def CourseListView(request):
   courses = Course.objects.all()
-  return render(request,'course_list.html',{"courses":courses})
+  public_key = settings.RAVE_PUBLIC_KEY
+  current_user = request.user
+  random_num =  random.randint(2345678909800, 9923456789000)
+  return render(request,'course_list.html',{"courses":courses,'public_key':public_key,'current_user':current_user,'random_num':random_num})
 
 @login_required
 def SubjectsView(request,course_id):
