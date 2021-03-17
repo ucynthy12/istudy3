@@ -32,31 +32,23 @@ def about(request):
     return render(request,'about.html',{"courses":courses})    
 
 def register(request):
-    form = RegisterForm(request.POST or None)
-    if form.is_valid():
-        username =form.cleaned_data.get('username')
-        email =form.cleaned_data['email']
-        password =form.cleaned_data.get('password1')
-        password2 =form.cleaned_data.get('password2')
-        
-        try:
-            user = User.objects.create_user(username,email,password)
-        
-        except:
-            user = None
-        
-        if user !=None:
-                        
-            login(request,user)
-          
-            send_welcome_email(username,email)
-            return redirect('index')
-            
+        form = UserForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            username =form.cleaned_data.get('username')
+            email =form.cleaned_data['email']
+            password =form.cleaned_data.get('password1')
+            password2 =form.cleaned_data.get('password2')
+            user = authenticate(username=username,password=password)
+            login(request, user)
+            messages.success(request, 'Registration successful.')
+            return redirect('login')
 
-        else:
-            request.session['register_error'] = 1
+        messages.error(request, 'unsuccessful registration. invalid information.')
+
+        form = UserForm
             
-    return render(request,'registration/registration_form.html',{'form':form,})
+        return render(request,'registration/registration_form.html',{'form':form,})
 
 
 def user_login(request):

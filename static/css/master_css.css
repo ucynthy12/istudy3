@@ -249,3 +249,380 @@ video {
   letter-spacing: 5px;
  
 } */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background: linear-gradient(#eee, #0c0c0c);
+  background: url("https://i.postimg.cc/Hkgmj8HH/bg.jpg");
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: cursive;
+  width: 100%;
+  height: 100vh;
+}
+h1 {
+  margin-bottom: 5%;
+}
+.content {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+}
+
+.eye {
+  cursor: pointer;
+  width: 3%;
+  margin-left: 2px;
+}
+.buttons {
+  display: inline-block;
+  width: 65%;
+}
+.buttons .facebook,
+.buttons .google {
+  width: 45%;
+  display: inline-block;
+  padding: 12px 11px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+}
+.facebook {
+  color: #fff;
+  background-color: #3b5998;
+  border: none;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+}
+.facebook:hover {
+  background-color: #4a6eba;
+}
+.facebook i {
+  margin-right: 10px;
+}
+.google {
+  color: #fff;
+  background-color: #d34836;
+}
+.google:hover {
+  background-color: #ed4f3b;
+}
+.google i {
+  margin-right: 10px;
+}
+
+form {
+  display: none;
+  text-align: left;
+}
+.theline {
+  border-bottom: 1px solid #eee;
+  width: 80%;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%);
+  margin-bottom: 30px;
+}
+
+.err {
+  color: #ea160b;
+  padding-bottom: 20px;
+  width: 100%;
+  display: block;
+  display: none;
+  font-size: 12px;
+}
+.fa-frown {
+  color: #ea160b;
+}
+
+/********************************************** start signUp **********************************************/
+
+.signUp,
+.signIn {
+  height: 100%;
+  width: 50%;
+  background-color: rgba(238, 238, 238, 0.2);
+  text-align: center;
+  color: #99043d;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/*animation*/
+.signIn:hover,
+.signUp:hover {
+  cursor: pointer;
+  width: 60%;
+  /* background-color: rgba(161, 227, 255, 0.4); */
+  background-color: rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+}
+.signIn:hover h1,
+.signup:hover h1 {
+  text-shadow: 1px 1px 2px #eee;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+}
+
+.signUp:hover + .signIn {
+  width: 40%;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+}
+
+.signUp figure {
+  width: 200px;
+  height: 200px;
+}
+.signUp figure img {
+  width: 100%;
+}
+
+.signUp figure.stars {
+  width: 100%;
+  position: absolute;
+  height: 100%;
+  top: 12%;
+  left: 0%;
+  z-index: 0;
+  opacity: 1;
+  transform: rotate(-15deg);
+  animation: stars 4s ease-in-out infinite;
+}
+
+@keyframes stars {
+  0%,
+  100% {
+    top: 12%;
+    left: 0%;
+  }
+  50% {
+    top: 10%;
+    left: -2%;
+  }
+}
+
+.signUp form,
+.signIn form {
+  color: #eee;
+  width: 40%;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 0 10px #eee;
+}
+
+.signUp form lable,
+.signIn form lable {
+  display: inline-block;
+  width: 30%;
+}
+.signUp input,
+.signIn input {
+  width: 65%;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #99043d;
+  outline: none;
+  color: #eee;
+  padding: 7px;
+  margin-bottom: 5%;
+  transition: all 0.2s ease-in-out;
+}
+.signUp input:focus,
+.signIn input:focus {
+  border-bottom: 2px solid #ffffff;
+}
+form p {
+  display: inline-block;
+  width: 29%;
+}
+form .signUpbtn,
+form .signInbtn {
+  background-image: url("https://i.postimg.cc/nc9g4FTz/btnBg.jpg");
+  background-size: cover;
+  border: none;
+  display: block;
+  width: 40%;
+  padding: 12px 11px;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%);
+  margin-bottom: 15px;
+  margin-top: 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  color: black;
+  font-weight: bold;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+form .signUpbtn:hover,
+form .signInbtn:hover {
+  opacity: 1;
+}
+
+/********************************************** end signUp **********************************************/
+
+/********************************************** start signin **********************************************/
+
+.signIn figure {
+  width: 200px;
+  height: 200px;
+}
+.signIn figure img {
+  width: 100%;
+}
+
+.signIn figure.starsLogIn {
+  width: 100%;
+  position: absolute;
+  height: 100%;
+  z-index: 0;
+  opacity: 1;
+  transform: rotate(170deg);
+  animation: stars 4s ease-in-out infinite;
+}
+
+.otherWidth {
+  width: 40%;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+}
+.signIn:hover {
+  width: 60%;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+}
+/********************************************** end signin **********************************************/
+
+/* responsive */
+
+@media only screen and (max-width: 1224px) {
+  .signUp form lable {
+    width: 38%;
+  }
+  .signUp input {
+    width: 57%;
+  }
+  .buttons {
+    width: 57%;
+  }
+  button span {
+    font-size: 12px;
+  }
+  .facebook {
+    width: 48%;
+    font-size: 12px;
+  }
+
+  .google {
+    width: 48%;
+  }
+  form p {
+    font-size: 14px;
+    width: 38%;
+  }
+
+  form .signUpbtn {
+    width: 30%;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .signUp form lable,
+  .signIn form lable {
+    width: 38%;
+    font-size: 13px;
+  }
+  .signUp input,
+  .signIn input {
+    width: 57%;
+    font-size: 14px;
+  }
+  .buttons {
+    width: 60%;
+  }
+  .buttons i {
+    font-size: 17px;
+  }
+  .google,
+  .facebook {
+    width: 45%;
+  }
+
+  form p {
+    font-size: 13px;
+    width: 38%;
+  }
+  .signIn form p {
+    width: 38%;
+  }
+  form .signUpbtn,
+  form .signInbtn {
+    width: 30%;
+  }
+  .signUp .fa-user-plus,
+  .signIn .fa-user-edit {
+    padding-top: 70px;
+  }
+  .signUp form,
+  .signIn form {
+    width: 60%;
+  }
+}
+@media only screen and (max-width: 430px) {
+  .signUp figure img,
+  .signIn figure img {
+    width: 50%;
+  }
+  .signUp form,
+  .signIn form {
+    width: 80%;
+  }
+  .buttons {
+    width: 100%;
+  }
+  .signUp input,
+  .signIn input {
+    width: 95%;
+  }
+  .signUp form lable,
+  .signIn form lable {
+    width: 100%;
+  }
+  .buttons .facebook,
+  .buttons .google {
+    width: 100%;
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+  h1 {
+    font-size: 20px;
+    margin-bottom: 2%;
+  }
+}

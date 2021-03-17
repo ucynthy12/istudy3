@@ -9,7 +9,7 @@ class UserForm(UserCreationForm):
     email = forms.EmailField(max_length=300,help_text='Required. Inform a valid email address')
     parent = 'parent'
     student = 'student'
-    taecher = 'teacher'
+    teacher = 'teacher'
     
     roles=[
         ('parent','parent'),
@@ -17,6 +17,7 @@ class UserForm(UserCreationForm):
         ('teacher','teacher'),
     ]
     role = forms.ChoiceField(required=True,choices=roles)
+    
     class Meta():
         model = User
         fields = ('full_name','username', 'email','role','phone_number','password1', 'password2',)
