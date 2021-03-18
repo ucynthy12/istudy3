@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import *
-from .models import Course, Subject, Lesson,Comment
+from .models import Course, Subject, Lesson,Comment,CoursePayment
 from django.urls import reverse_lazy
 from .forms import LessonForm,LessonUpdateForm,CommentForm
 from django.http import HttpResponseRedirect,FileResponse
@@ -16,12 +16,8 @@ import random
 
 def CourseListView(request):
   courses = Course.objects.all()
-  public_key = settings.RAVE_PUBLIC_KEY
-  current_user = request.user
-  random_num =  random.randint(2345678909800, 9923456789000)
-  return render(request,'course_list.html',{"courses":courses,'public_key':public_key,'current_user':current_user,'random_num':random_num})
+  return render(request,'course_list.html',{"courses":courses})
 
-@login_required
 def SubjectsView(request,course_id):
   course=Course.objects.get(id=course_id)
   subjects = Subject.objects.filter(course=course)
@@ -29,12 +25,20 @@ def SubjectsView(request,course_id):
 
 def payment(request,course_id):
   course=Course.objects.get(id=course_id)
+  current_user = request.user
+  course_payment = CoursePayment.objects.filter(user=current_user,course=course).first()
+  if course_payment:
+    return redirect('curriculum:subjects-list',course.id)
+
   subjects = Subject.objects.filter(course=course)
-  return render(request,'payment.html',{"course":course,"subjects":subjects})
+  public_key = settings.RAVE_PUBLIC_KEY
+  random_num =  random.randint(2345678909800, 9923456789000)
+
+  return render(request,'payment.html',{"course":course,"subjects":subjects,'public_key':public_key,'current_user':current_user,'random_num':random_num})
 
 def LessonsView(request,course_id,subject_id):
   course=Course.objects.get(id=course_id)
-  subject=Subject.objects.get(id=subject_id)
+  subject=Subject.objects.filter(id=subject_id).first()
   lessons=Lesson.objects.filter(subject=subject)
   return render(request,'lesson.html',{"course":course,"subjects":subject,"lessons":lessons})
 
@@ -42,7 +46,6 @@ def LessonsView(request,course_id,subject_id):
 def LessonDetailView(request,subject_id,lesson_id):
   subject=Subject.objects.get(id=subject_id)
   lesson=Lesson.objects.get(id=lesson_id)
-  print(lesson)
   allcomments= Comment.objects.filter(lesson=lesson).order_by('id')
   page = request.GET.get('page',1)
   paginator = Paginator (allcomments,3)
@@ -79,8 +82,9 @@ def LessonCreateView(request,course_id,subject_id):
       create= form.save(commit=False)
       create.created_by =request.user
       create.course = course
-      create.subject = subject
       create.lesson=lesson
+
+      create.subject = subject
       create.save()
       return redirect('curriculum:lessons-list',course.id,subject.id)
   else:
@@ -147,3 +151,23 @@ class HomePageView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['key'] = settings.RAVE_PUBLIC_KEY
         return context
+
+
+def Order(request,course_id,order_id):
+  print(course_id)
+
+  course = Course.objects.filter(pk=course_id).first()
+  current_user = request.user
+  course_payment = CoursePayment(user=current_user,course=course,order_id=str(order_id),paid=True)
+  course_payment.save()
+  return redirect('curriculum:subjects-list', course.id)
+
+
+class CoursePaidApiView(APIView):
+  def get(self,request):
+    course_paid=CoursePayment.objects.all()
+    serializer= CoursePaidSerializer(course_paid,many=True)
+    return Response(serializer.data)
+
+  def post(self):
+    pass 

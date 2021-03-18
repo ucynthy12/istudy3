@@ -9,4 +9,6 @@ admin.site.register(Course)
 admin.site.register(Subject)
 admin.site.register(Lesson)
 admin.site.register(Comment,MPTTModelAdmin)
+admin.site.register(CoursePayment)
+
 

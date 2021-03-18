@@ -3,15 +3,24 @@ from cloudinary.models import CloudinaryField
 from istudy_users.models import User
 import os
 from mptt.models import MPTTModel , TreeForeignKey
+
 # Create your models here.
 
 class Course(models.Model):
     name = models.CharField(max_length=200,unique=True)
     description = models.TextField(max_length=500,blank=True)
-
     def __str__(self):
         return self.name
 
+class CoursePayment(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    course = models.ForeignKey(Course,on_delete=models.CASCADE,blank=True)
+    order_id=models.CharField(null=True,blank=True,max_length=40)
+    paid = models.BooleanField(default=False)
+
+
+    def __str__(self):
+        return self.course.name 
 
 class Subject(models.Model):
     name = models.CharField(max_length=200)
@@ -75,5 +84,3 @@ class Comment(MPTTModel):
         order_insertion_by = ['publish']
  
 
-    
-    
