@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import cloudinary
-import cloudinary.uploader
-import cloudinary.api
 
 import os
 import django_heroku
@@ -92,6 +90,7 @@ INSTALLED_APPS = [
     'curriculum',
     'crispy_forms',
     'mptt',
+    'cloudinary'
 ]
 
 SITE_ID = 1

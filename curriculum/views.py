@@ -83,7 +83,6 @@ def LessonCreateView(request,course_id,subject_id):
       create.created_by =request.user
       create.course = course
       create.lesson=lesson
-
       create.subject = subject
       create.save()
       return redirect('curriculum:lessons-list',course.id,subject.id)
