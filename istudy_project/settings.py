@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 import os
 import django_heroku
 import dj_database_url
@@ -67,6 +70,8 @@ cloudinary.config(
   api_secret="gtDPJAZGiR3JAizrf6Qk7DTL6Lg",
   secure =True,
 )
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -86,7 +91,7 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'curriculum',
     'crispy_forms',
-    'mptt'
+    'mptt',
 ]
 
 SITE_ID = 1
@@ -175,7 +180,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-
 django_heroku.settings(locals())
 
 AUTH_USER_MODEL = 'istudy_users.User'

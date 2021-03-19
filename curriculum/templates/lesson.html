@@ -58,15 +58,14 @@
       </div>
     </div>
   </div>
-
+ 
   {% endfor %}
   <div class="row d-flex justify-content-center mb-3">
     {% if user.role == 'teacher' or user.is_superuser %}
-    <a href="{% url 'curriculum:create' subject_id=subjects.id course_id=course.id %}"><button type="button"
-        class="btn btn-success btn-lg btn-bloc"><i class="fas fa-plus"></i>&nbsp; Add new Lesson </button> </a>
+     <a href="{% url 'curriculum:create' course_id=course.id subject_id=subjects.id %}" class="btn btn-success btn-lg btn-bloc"> Add new Lesson </a>
     {% endif %}
   </div>
-
+ 
 </section>
 
 

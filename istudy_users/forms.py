@@ -7,16 +7,7 @@ from django.contrib.auth import authenticate,login,logout
 
 class UserForm(UserCreationForm):
     email = forms.EmailField(max_length=300,help_text='Required. Inform a valid email address')
-    # parent = 'parent'
-    # student = 'student'
-    # taecher = 'teacher'
-    
-    # roles=[
-    #     ('parent','parent'),
-    #     ('student','student'),
-    #     ('teacher','teacher'),
-    # ]
-    # role = forms.ChoiceField(required=True,choices=roles)
+  
     class Meta():
         model = User
         fields = ('full_name','username', 'email','role','phone_number','password1', 'password2',)
@@ -31,7 +22,7 @@ class UpdateUserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email')
+        fields = ('full_name','username', 'email','phone_number')
 
 
 class UpdateUserProfileForm(forms.ModelForm):

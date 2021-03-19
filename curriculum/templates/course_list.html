@@ -36,8 +36,7 @@
     <div class="col-md-8">
       <p class="grey-text" style="font-size: 20px;">Istudy is an online learning tool for kids from Kindergarden to
         Grade 3 three. The lessons and materials
-        provided are based on the class. Find the one suitable for your kid, and start enjoying learning with us!<br>To
-        get started just pay a one time fee of RWF100</p>
+        provided are based on the class. Find the one suitable for your kid, and start enjoying learning with us!
     </div>
   </div>
 </div>
@@ -55,19 +54,17 @@
               class="fas fa-child"></i>&nbsp;{{course.name}}</h4>
           <p class="card-text">{{course.description|truncatechars:75}}</p>
 
-          {% if user.is_authenticated %}
-
-          <form>
-            <script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
-            <!-- <a href="https://ravesandbox.flutterwave.com/pay/istudy" class="btn btn-warning"
-              style="font-family: 'Source Code Pro', monospace;">Let's get started</a> -->
-            <button type="button" class='btn btn-warning' onClick="payWithRave()">PAY</button>
-
-          </form>
-
-
-          {%else%}
-          <a href="{% url 'login' %}" class="btn btn-warning">Login</a>
+          {% if user.is_authenticated%}
+            {% if user.role == 'teacher' or user.is_superuser %}
+          <a href="{% url 'curriculum:subjects-list' course.id %}" class="btn btn-warning"
+            style="font-family: 'Source Code Pro', monospace;">Let's get started</a>
+            {%else%}
+            <a href="{% url 'curriculum:payment' course.id %}" class="btn btn-warning"
+              style="font-family: 'Source Code Pro', monospace;">Let's get started</a>
+  
+            {%endif%}
+            {%else%}
+            <a href="{% url 'login' %}" class="btn btn-warning">Login</a>
           {%endif%}
         </div>
       </div>
@@ -75,37 +72,6 @@
     {% endfor %}
   </div>
 </section>
-<script>
-  const publicKey = '{{public_key}}'
-  const phone = "{{current_user.phone_number}}"
-  const email = "{{current_user.email}}"
-  const random = "{{random_num}}"
-  function payWithRave() {
-    var x = getpaidSetup({
-      PBFPubKey: publicKey,
-      customer_email: email,
-      amount: 1000,
-      customer_phone: phone,
-      currency: "RWF",
-      txref: random.toString(),
-      custom_title: "istudy",
-      onclose: function () { },
-      callback: function (response) {
-        var txref = response.tx.txRef;
-        console.log("This is the response returned after a charge", response);
-        if (
-          response.tx.chargeResponseCode == "00" ||
-          response.tx.chargeResponseCode == "0"
-        ) {
-          document.location.href = "http://127.0.0.1:8000/curriculum/1/"
-          // redirect to a success page
-        } else {
-          // redirect to a failure page.
-        }
-        x.close();
-      }
-    });
-  }
-</script>
+
 
 {%endblock%}

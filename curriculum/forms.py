@@ -1,12 +1,22 @@
 from django import forms
 from .models import Lesson,User,Comment
 from mptt.forms import TreeNodeChoiceField
+from cloudinary.forms import CloudinaryFileField
 
 
 class LessonForm(forms.ModelForm):
+    video = CloudinaryFileField(
+    options = { 
+      'tags': "directly_uploaded",
+      'crop': 'limit', 'width': 1000, 'height': 1000,
+     'eager': [
+    { "width": 300, "height": 300, "crop": "pad", "audio_codec": "none"},
+    { "width": 160, "height": 100, "crop": "crop", "gravity": "south",
+        "audio_codec": "none"}],
+    })
     class Meta:
         model = Lesson
-        fields = ('__all__')
+        fields = ('lesson_id','name','video','ppt','notes')
         exclude = ['created_by','course','subject']
 
 class LessonUpdateForm(forms.ModelForm):

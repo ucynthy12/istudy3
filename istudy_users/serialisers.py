@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from allauth.account.adapter import get_adapter
 from istudy_project import settings
-from .models import User
+from .models import User,Profile
 from allauth.account.utils import setup_user_email
+
 
 class UserDetailsSerializer(serializers.ModelSerializer):
     """
@@ -12,7 +13,12 @@ class UserDetailsSerializer(serializers.ModelSerializer):
         model = User
         fields = ('pk', 'username', 'email', 'full_name','role','phone_number')
         read_only_fields = ('email', )
-
+class UserProfileSerializer(serializers.ModelSerializer):
+    user = UserDetailsSerializer()
+    class Meta:
+        model= Profile
+        fields = ('user','bio','profile_picture')
+        
 class RegisterSerializer(serializers.ModelSerializer):
 
     password2 = serializers.CharField(style={'input_type':'password'},write_only=True)

@@ -37,7 +37,7 @@
               {% for subject in subjects %}
               <div class="card mb-5 mr-4 ml-4 box-shadow-hover" style="max-width: 500px;background-color:#8ccc5e;color: #fff;">
                 <div class="row no-gutters">
-                          <div class="col-md-4" style="object-fit: contain;">
+                          <div class="col-md-4" >
                             <img src="{{subject.image.url|default_if_none:'#'}}" class="card-img" alt="No image found" height="200px" width="200px ">
                           </div>
                           <div class="col-md-8">
